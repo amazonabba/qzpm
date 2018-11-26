@@ -14,7 +14,7 @@ define('_VIEW_PATH_', 'app/view/');
 //Estilos Index
 define('_VIEW_PATH_INDEX_', 'styles/index/');
 define('_TITLE_', 'Sin Titulo');
-define('_ICON_', 'styles/pool.png');
+define('_ICON_', 'styles/rose.png');
 
 define('_PASS_','mm19rules');
 

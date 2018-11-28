@@ -21,7 +21,7 @@ class Rolei{
             $stm->execute();
             $result = $stm->fetchAll();
         } catch (Exception $e){
-            $this->log->insert($e->getMessage(), "Rolei|save");
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
         return $result;
@@ -60,8 +60,7 @@ class Rolei{
             }
 
         } catch (Exception $e){
-            $error = $e->getMessage();
-            $this->log->insert($error, "Rolei|save");
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
         return $result;
@@ -86,8 +85,7 @@ class Rolei{
             $result = 1;
 
         } catch (Exception $e){
-            $error = $e->getMessage();
-            $this->log->insert($error, "Rolei|insertPermits");
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
         return $result;
@@ -100,8 +98,7 @@ class Rolei{
             $stm->execute([$id]);
             $result = 1;
         } catch (Exception $e){
-            $error = $e->getMessage();
-            $this->log->insert($error, 'Rolei|deleteRole');
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
 
@@ -118,8 +115,7 @@ class Rolei{
             ]);
             $result = 1;
         } catch (Exception $e){
-            $error = $e->getMessage();
-            $this->log->insert($error, 'Rolei|deletePermit');
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
         return $result;
@@ -133,7 +129,7 @@ class Rolei{
             $stm->execute([$id_role]);
             $result = $stm->fetchAll();
         } catch (Exception $e){
-            $this->log->insert($e->getMessage(), 'Rolei|readPermits');
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
         return $result;
@@ -148,21 +144,20 @@ class Rolei{
             $stm->execute([$id_role, $controller]);
             $result = $stm->fetchAll();
         } catch (Exception $e){
-            $this->log->insert($e->getMessage(), 'Rolei|readPermitscontroller');
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
         return $result;
     }
 
     public function readPermitsview($id_role, $controller){
-        $result = [];
         try{
             $sql = "SELECT m.menu_name, o.option_name, o.option_url FROM role r inner join rolemenu rm on r.id_role = rm.id_rolemenu inner join menu m on m.id_menu = rm.id_menu inner join optionmenu o on o.id_menu = m.id_menu where r.id_role = ?";
             $stm = $this->pdo->prepare($sql);
             $stm->execute([$id_role, $controller]);
             $result = $stm->fetchAll();
         } catch (Exception $e){
-            $this->log->insert($e->getMessage(), 'Rolei|readPermitscontroller');
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
         return $result;

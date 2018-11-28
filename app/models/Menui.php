@@ -21,7 +21,7 @@ class Menui{
             $stm->execute([$id_role]);
             $result = $stm->fetchAll();
         } catch (Exception $e){
-            $this->log->insert($e->getMessage(), get_class($this).'|listMenu');
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
         return $result;
@@ -35,7 +35,7 @@ class Menui{
             $stm->execute([$menu]);
             $result = $stm->fetchAll();
         } catch (Exception $e){
-            $this->log->insert($e->getMessage(), 'Rolei|readPermits');
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
         return $result;
@@ -53,7 +53,7 @@ class Menui{
                 $validate = true;
             }
         } catch (Exception $e){
-            $this->log->insert($e->getMessage(), 'Rolei|readPermits');
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
             $validate = false;
         }
         return $validate;

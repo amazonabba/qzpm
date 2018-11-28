@@ -5,116 +5,85 @@
  * Date: 26/11/2018
  * Time: 11:20
  */
-
-//Puto si lees esto
+//Nunca dejes que nadie te sorprenda, porque de un momento a otro puedes PUTO EL QUE LEA ESTO :)
 //Aqui implementaré la api con control de sessiones y gestion de roles
+
 //Establecer zona horaria
 date_default_timezone_set('America/Lima');
-//LLamada a archivo gestor de base de da+tos
+
+//LLamada a archivo gestor de base de datos
 require 'core/Database.php';
 //Levantamiento del Log para registro de errores
-require "app/models/Log.php";
-//Levantamiento de registro de roles y permisos
-require_once "app/models/Rolei.php";
-$errores = new Log();
-$controladores_acciones = new Rolei();
-
-//echo var_dump($permisos);
-
+require 'app/models/Log.php';
+//Levantamiento de registro de roles y permisos para acceso a vistas
+require 'app/models/Rolei.php';
 //Inicio clase para la encriptacion de contenido
-
 require 'app/models/Crypt.php';
-require 'app/models/Menui.php';
-// Errores de PHP a Try/Catch
-// Falta mejorar esta vaina porque puto el que lo lea
+
+//Inicialización de clases
+$errores = new Log();
+$rolei = new Rolei();
+
+// Manejo de Errores Personalizado de PHP a Try/Catch
 function exception_error_handler($severidad, $mensaje, $fichero, $linea) {
     $cadena =  '[LEVEL]: ' . $severidad . ' IN ' . $fichero . ': ' . $linea . '[MESSAGGE]' . $mensaje . "\n";
     $guardar = new Log();
     $guardar->insert($cadena, "Excepcion No Manejada");
     //echo $cadena;
 }
+
 //Para manejo de caracteres
 header("Content-Type: text/html;charset=utf-8");
 //Especificar el manejo de errores personalizados
 set_error_handler("exception_error_handler");
+//Inicio de Sesion
 session_start();
 
-
-// Definicion Variables Globales
+//Variables Globales
 require 'core/globals.php';
+
+//Inicio de Código de Verificación de Permisos
+
+//Captura de Datos para Obtener el Controlador y la Accion
 
 //Inicio de codigo de la api
 //Verificar existencia de los archivos
 $controlador = $_GET['c'] ?? "none";
-$accion = $_GET['a'] ?? "index";
+$accion = $_GET['a'] ?? "none";
 $function_action = $controlador . "|" . $accion;
 $archivo = 'app/controllers/' . $controlador . 'Controller.php';
+
 if(file_exists($archivo)){
-    //Acciones si el archivo existe
-    //Verificar si existe inicio de sesion
+    //Variable Para Determinar Si Procede O No La Petición
     $autorizado = false;
 
-    if(isset($_SESSION['Rolei']) || isset($_COOKIE['Rolei'])){
+    if(isset($_COOKIE['role']) || isset($_SESSION['role'])){
         $crypt = new Crypt();
-        $role = $_COOKIE['Rolei'] ?? $_SESSION['Rolei'];
+        $role = $_COOKIE['role'] ?? $_SESSION['role'];
         $rol = $crypt->decrypt($role, _PASS_);
-        $permisos = $controladores_acciones->readPermitscontroller($rol, $controlador);
-        foreach ($permisos as $permiso){
-            if($permiso->permit_controller == $controlador && $permiso->permit_action == $accion && $permiso->permit_status == 1){
-                $autorizado = true;
-                //echo "La funcion funciona xd";
-            }
-        }
-        //Verificar permisos
-        //Inicio
-        //(En esta parte se hará consultas sql para verificar los permisos del usuarios. Caso que no se encuentre su permiso, este será denegado
-        /*
-         * Paso 1: Obtener Rol Usuario
-         * Paso 2: Obtener lista de accesos por Rol
-         * Paso 3: Validar si puede realizar la accion invocada
-         * */
-        //Fin
+        //$view = $controlador . '/' . $accion;
+        $autorizado = $rolei->readPermitscontroller($rol, $controlador);
+
     } else {
-        $permisos = $controladores_acciones->readPermits(2);
-        foreach ($permisos as $permiso){
-            if($permiso->permit_controller == $controlador && $permiso->permit_action == $accion && $permiso->permit_status == 1){
-                $autorizado = true;
-                //echo "La funcion funciona xd";
-            }
-        }
-        //Verificar metodos de acceso sin restricciones
-        //Inicio
-        //(En esta parte se hará consultas sql para verificar los permisos libres disponibles, sino sera denegado)
-        /*
-         * Paso 1: Obtener Rol Usuario
-         * Paso 2: Obtener lista de accesos por Rol
-         * Paso 3: Validar si puede realizar la accion invocada
-         * */
-        //Fin
+        $view = $controlador . '/' . $accion;
+        $autorizado = $rolei->readPermitscontroller($rol, $controlador);
     }
-    //$autorizado =  true;
+    //Si $autorizado =  true Entra Aquí, Descomentar La Linea Siguiente Si Sólo Se Quiere Probar Funciones
+    //$autorizado = true
     if($autorizado){
         try{
+            //Entra Aquí Si La Clase Y La Funcion Existen
             require $archivo;
-            $clase = sprintf('%sController', $_GET['c'] ?? 'Admin');
+            $clase = sprintf('%sController', $_GET['c'] ?? $controlador);
             $clase = trim(ucfirst($clase));
             $accion = trim(strtolower($accion));
             $controller = new $clase;
             $controller->$accion();
         } catch (\Throwable $e){
-            /*require 'app/controllers/ErrorController.php';
-            $clase = sprintf('%sController', 'Error');
-            $accion = 'error';
-            $clase = trim(ucfirst($clase));
-            $accion = trim(strtolower($accion));
-            $controller = new $clase;
-            $controller->$accion();*/
-            echo $e->getMessage();
-            echo 'Solicitud erronea. Contacte con el administrador';
             $errores->insert($e->getMessage(), $function_action);
+            echo 2;
         }
     } else {
-        //LLEGA AQUI SI SE TRATA DE ACCEDER A ACCION O FUNCION SIN PERMISOS
         $errores->insert("SIN PERMISOS SUFICIENTES", $function_action);
         echo 2;
     }

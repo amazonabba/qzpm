@@ -20,7 +20,7 @@
 <body>
 <center><h1>Felicidades Papu, haz roto el sitio web :D</h1></center>
 <br>
-<center><h4>Por cosas como estas, tu mamá te abandonó.</h4></center>
+<center><h4>Por cosas como estas, puto el que lo lea.</h4></center>
 <center><h6>¡Huevo Presidente!</h6></center>
 </body>
 </html>

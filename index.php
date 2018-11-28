@@ -23,7 +23,7 @@ require 'app/models/Crypt.php';
 
 //Inicialización de clases
 $errores = new Log();
-$vistas = new Menui();
+$menui = new Menui();
 
 // Manejo de Errores Personalizado de PHP a Try/Catch
 function exception_error_handler($severidad, $mensaje, $fichero, $linea) {
@@ -55,7 +55,7 @@ if(isset($_GET['c'])){
     //Si No Hay Controlador Declarado, Se Hace Validación
 
     //Esta Parte Del Código Es Para Software Que Sólo Funcionan Con Usuarios Registrados
-    if(isset($_SESSION['role']) || isset($_COOKIE['role'])){
+    if(isset($_COOKIE['role']) || isset($_SESSION['role'])){
         //Si Entra Aquí, Es Porque Hay Una Sesión Iniciada
         $controlador = "Admin";
     } else {
@@ -69,28 +69,32 @@ $controlador = trim(ucfirst($controlador));
 //Obtencion de Datos de Accion, Si No Hay Una Declarada, Se Pone "Index" Por Defecto
 $accion = $_GET['a'] ?? "index";
 
-//Verificar existencia de los archivos
+//Variable Usada Para Declarar La Funcion En Caso De Error
 $function_action = $controlador . "|" . $accion;
+
+//Verificar existencia de los archivos
 $archivo = 'app/controllers/' . $controlador . 'Controller.php';
+//Verifica Si El Archivo Existe
 if(file_exists($archivo)){
-    //Acciones si el archivo existe
-    //Verificar si existe inicio de sesion
+    //Variable Para Determinar Si Procede O No La Petición
     $autorizado = false;
 
-    if(isset($_SESSION['role']) || isset($_COOKIE['role'])){
+    if(isset($_COOKIE['role']) || isset($_SESSION['role'])){
         $crypt = new Crypt();
         $role = $_COOKIE['role'] ?? $_SESSION['role'];
         $rol = $crypt->decrypt($role, _PASS_);
         $view = $controlador . '/' . $accion;
-        $autorizado = $vistas->readViewrole($rol, $view);
+        $autorizado = $menui->readViewrole($rol, $view);
 
     } else {
         $view = $controlador . '/' . $accion;
-        $autorizado = $vistas->readViewrole(1, $view);
+        $autorizado = $menui->readViewrole(1, $view);
     }
-    //$autorizado =  true;
+    //Si $autorizado =  true Entra Aquí, Descomentar La Linea Siguiente Si Sólo Se Quiere Probar Funciones
+    //$autorizado = true
     if($autorizado){
         try{
+            //Entra Aquí Si La Clase Y La Funcion Existen
             require $archivo;
             $clase = sprintf('%sController', $_GET['c'] ?? $controlador);
             $accion = $_GET['a'] ?? "index";
@@ -99,42 +103,35 @@ if(file_exists($archivo)){
             $controller = new $clase;
             $controller->$accion();
         } catch (\Throwable $e){
+            //Si La Funcion No Existe, Entra Aquí.
             require 'app/controllers/ErrorController.php';
             $clase = sprintf('%sController', 'Error');
             $clase = trim(ucfirst($clase));
             $accion = 'error';
             $controller = new $clase;
             $controller->$accion();
-            //echo $e->getMessage();
-            //echo 'Solicitud erronea. Contacte con el administrador';
             $errores->insert($e->getMessage(), $function_action);
         }
     } else {
-        if(isset($_SESSION['role']) || isset($_COOKIE['role'])){
-            //LLEGA AQUI SI SE TRATA DE ACCEDER A ACCION O FUNCION SIN PERMISOS
-            require 'app/controllers/ErrorController.php';
-            $clase = sprintf('%sController', 'Error');
-            $clase = trim(ucfirst($clase));
-            $accion = 'error';
-            $controller = new $clase;
-            $controller->$accion();
-            $errores->insert("SIN PERMISOS SUFICIENTES", $function_action);
-            //echo 'Estoy llegando aqui :/';
-
+        if(isset($_COOKIE['role']) || isset($_SESSION['role'])){
+            //LLEGA AQUI SI SE TRATA DE ACCEDER A ACCION O FUNCION SIN PERMISOS Y SI SE ESTA LOGUEADO
+            $archivof = 'app/controllers/ErrorController.php';
         } else {
-            //LLEGA AQUI SI SE TRATA DE ACCEDER A ACCION O FUNCION SIN PERMISOS
-            require 'app/controllers/LoginController.php';
-            $clase = sprintf('%sController', 'Login');
-            $clase = trim(ucfirst($clase));
-            $accion = 'index';
-            $controller = new $clase;
-            $controller->$accion();
-            $errores->insert("SIN PERMISOS SUFICIENTES", $function_action);
-            //echo 'Estoy llegando aqui :/';
+            //LLEGA AQUI SI SE TRATA DE ACCEDER A ACCION O FUNCION SIN PERMISOS Y SI NO SE ESTA LOGUEADO
+            $archivof = 'app/controllers/LoginController.php';
+
         }
+        require $archivof;
+        $clase = sprintf('%sController', 'Login');
+        $clase = trim(ucfirst($clase));
+        $accion = 'index';
+        $controller = new $clase;
+        $controller->$accion();
+        $errores->insert("SIN PERMISOS SUFICIENTES", $function_action);
 
     }
 } else {
+    //Si el Archivo No Existe, Genera El Error Y Notifica En La Pantalla
     require 'app/controllers/ErrorController.php';
     $clase = sprintf('%sController', 'Error');
     $clase = trim(ucfirst($clase));

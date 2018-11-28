@@ -12,7 +12,7 @@ define('_STYLES_', 'styles/');
 define('_LOGIN_STYLES_', 'styles/login/');
 define('_VIEW_PATH_', 'app/view/');
 //Estilos Index
-define('_VIEW_PATH_INDEX_', 'styles/index/');
+define('_VIEW_STYLES_', 'styles/assets/');
 define('_TITLE_', 'Sin Titulo');
 define('_ICON_', 'styles/rose.png');
 

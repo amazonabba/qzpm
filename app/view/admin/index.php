@@ -6,12 +6,10 @@
  * Time: 0:06
  */
 ?>
-
-
         <!-- page title area end -->
         <div class="main-content-inner">
             <!-- MAIN CONTENT GOES HERE -->
-
+            <!--Todo tu codigo cool and nice va aqui-->
 
 
         </div>

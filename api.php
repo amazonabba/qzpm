@@ -61,12 +61,10 @@ if(file_exists($archivo)){
         $crypt = new Crypt();
         $role = $_COOKIE['role'] ?? $_SESSION['role'];
         $rol = $crypt->decrypt($role, _PASS_);
-        //$view = $controlador . '/' . $accion;
-        $autorizado = $rolei->readPermitscontroller($rol, $controlador);
+        $autorizado = $rolei->verificatePermitRole($rol, $controlador, $accion);
 
     } else {
-        $view = $controlador . '/' . $accion;
-        $autorizado = $rolei->readPermitscontroller($rol, $controlador);
+        $autorizado = $rolei->verificatePermitRole(1, $controlador, $accion);
     }
     //Si $autorizado =  true Entra Aquí, Descomentar La Linea Siguiente Si Sólo Se Quiere Probar Funciones
     //$autorizado = true

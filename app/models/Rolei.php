@@ -136,18 +136,23 @@ class Rolei{
 
     }
 
-    public function readPermitscontroller($id_role, $controller){
-        $result = [];
+    //FUNCION USADA EN API
+    //SIRVE PARA VERIFICAR SI EL ACCESO ESTÁ PERMITITDO
+    public function verificatePermitRole($id_role, $controller, $accion){
+        $validate = false;
         try{
-            $sql = "select p.permit_controller, p.permit_action, p.permit_status from rolepermit r2 inner join permit p on r2.id_permit = p.id_permit where r2.id_role = ? and p.permit_controller = ?";
+            $sql = "select m.menu_status, p.permit_status from role r inner join rolemenu rl on r.id_role = rl.id_role inner join menu m on rl.id_menu = m.id_menu inner join optionm o on m.id_menu = o.id_menu inner join permit p on o.id_optionm = p.id_optionm where rl.id_role = ? and m.menu_controller = ? and p.permit_action = ?";
             $stm = $this->pdo->prepare($sql);
-            $stm->execute([$id_role, $controller]);
+            $stm->execute([$id_role, $controller, $accion]);
             $result = $stm->fetchAll();
+            if(count($result) > 0){
+                $validate = true;
+            }
         } catch (Exception $e){
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
-            $result = 2;
+            $validate = false;
         }
-        return $result;
+        return $validate;
     }
 
     public function readPermitsview($id_role, $controller){

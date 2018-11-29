@@ -11,9 +11,10 @@ define('_SERVER_', 'http://localhost/qzpm/');
 define('_STYLES_', 'styles/');
 define('_LOGIN_STYLES_', 'styles/login/');
 define('_VIEW_PATH_', 'app/view/');
+define('_JS_', 'js/');
 //Estilos Index
 define('_VIEW_STYLES_', 'styles/assets/');
-define('_TITLE_', 'Sin Titulo');
+define('_TITLE_', 'Rosame La Cosa');
 define('_ICON_', 'styles/rose.png');
 
 define('_PASS_','mm19rules');

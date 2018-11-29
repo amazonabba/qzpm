@@ -69,6 +69,9 @@ $controlador = trim(ucfirst($controlador));
 //Obtencion de Datos de Accion, Si No Hay Una Declarada, Se Pone "Index" Por Defecto
 $accion = $_GET['a'] ?? "index";
 
+//Para usar en el menú
+$_SESSION['accion'] = $accion;
+$_SESSION['controlador'] = $controlador;
 //Variable Usada Para Declarar La Funcion En Caso De Error
 $function_action = $controlador . "|" . $accion;
 
@@ -84,11 +87,11 @@ if(file_exists($archivo)){
         $role = $_COOKIE['role'] ?? $_SESSION['role'];
         $rol = $crypt->decrypt($role, _PASS_);
         $view = $controlador . '/' . $accion;
-        $autorizado = $menui->readViewrole($rol, $view);
+        $autorizado = $menui->verificateViewRole($rol, $controlador, $accion);
 
     } else {
         $view = $controlador . '/' . $accion;
-        $autorizado = $menui->readViewrole(1, $view);
+        $autorizado = $menui->verificateViewRole(1, $controlador, $accion);
     }
     //Si $autorizado =  true Entra Aquí, Descomentar La Linea Siguiente Si Sólo Se Quiere Probar Funciones
     //$autorizado = true

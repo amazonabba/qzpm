@@ -22,6 +22,15 @@ class Login{
                 $model->user_nickname
             ]);
             $result = $stm->fetchAll();
+            if(count($result) > 0){
+                $fecha = date('Y-m-d H:i:s');
+                $sql = 'update user set user_last_login = ? where user_nickname = ?';
+                $stm = $this->pdo->prepare($sql);
+                $stm->execute([
+                    $fecha,
+                    $model->user_nickname
+                ]);
+            }
         } catch (Exception $e){
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;

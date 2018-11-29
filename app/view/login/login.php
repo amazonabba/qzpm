@@ -29,6 +29,11 @@
     <link rel="stylesheet" href="<?php echo _SERVER_ . _VIEW_STYLES_;?>css/responsive.css">
     <!-- modernizr css -->
     <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/vendor/modernizr-2.8.3.min.js"></script>
+
+    <!-- Alertify -->
+    <script src="<?php echo _SERVER_ .  _STYLES_;?>alertifyjs/alertify.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo _SERVER_ .  _STYLES_;?>alertifyjs/css/alertify.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo _SERVER_ .  _STYLES_;?>alertifyjs/css/themes/default.css">
 </head>
 
 <body>
@@ -41,7 +46,7 @@
 <div class="login-area login-s2">
     <div class="container">
         <div class="login-box ptb--100">
-            <form>
+            <div>
                 <div class="login-form-head">
                     <h4>Inicio de Sesión</h4>
                     <p>¡Hola! Ingresa Tus Credenciales Para Continuar</p>
@@ -49,27 +54,30 @@
                 <div class="login-form-body">
                     <div class="form-gp">
                         <label for="exampleInputEmail1">Usuario</label>
-                        <input type="text" id="exampleInputEmail1">
+                        <input type="text" id="user">
                         <i class="ti-user"></i>
                     </div>
                     <div class="form-gp">
                         <label for="exampleInputPassword1">Contraseña</label>
-                        <input type="password" id="exampleInputPassword1">
+                        <input type="password" id="pass">
                         <i class="ti-lock"></i>
                     </div>
                     <div class="row mb-4 rmber-area">
                         <div class="col-6">
                             <div class="custom-control custom-checkbox mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
-                                <label class="custom-control-label" for="customControlAutosizing">Recordarme</label>
+                                <input type="checkbox" class="custom-control-input" id="recordar">
+                                <label class="custom-control-label" for="recordar">Recordarme</label>
                             </div>
                         </div>
+                        <!--<div class="col-6 text-right">
+                            <a href="#">Forgot Password?</a>
+                        </div>-->
                     </div>
                     <div class="submit-btn-area">
-                        <button id="form_submit" type="submit">Ingresar<i class="ti-arrow-right"></i></button>
+                        <button id="form_submit" type="submit" onclick="loginsistema()">Ingresar<i class="ti-arrow-right"></i></button>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -88,6 +96,34 @@
 <!-- others plugins -->
 <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/plugins.js"></script>
 <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/scripts.js"></script>
+
+<script type="text/javascript">
+    function loginsistema() {
+        var recordar = $('#recordar').prop('checked');
+        var usuario = $('#user').val();
+        var contrasenha = $('#pass').val();
+        var cadena = "user_nickname=" + usuario +
+            "&user_password=" + contrasenha +
+            "&remenber=" + recordar;
+        $.ajax({
+            type: "POST",
+            url: "<?php echo _SERVER_;?>api/Login/singIn",
+            data: cadena,
+            success:function (r) {
+                if(r==1){
+                    //alert('Logueado');
+                    alertify.success('Ingreso exitoso');
+                    //location.href = "<?php echo _SERVER_;?>"
+                    location.reload();
+                } else {
+                    //alert('no pe');
+                    alertify.error('Usuario y/o Contraseña Incorrectos');
+                }
+
+            }
+        });
+    }
+</script>
 </body>
 
 </html>

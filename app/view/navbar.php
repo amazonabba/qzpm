@@ -23,24 +23,35 @@
             <div class="menu-inner">
                 <nav>
                     <ul class="metismenu" id="menu">
-                        <li class="active">
-                            <a href="javascript:void(0)" aria-expanded="true"><i class="ti-dashboard"></i><span>Dashboard</span></a>
-                            <ul class="collapse">
-                                <li class="active"><a href="#">Active Menu Item</a></li>
-                                <li><a href="#">Menuitem 2</a></li>
-                                <li><a href="#">Menuitem 3</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-align-left"></i>
-                                <span>Multi level menu</span></a>
-                            <ul class="collapse">
-                                <li><a href="#">Item level (1)</a></li>
-                                <li><a href="#">Item level (1)</a></li>
-                                <li><a href="#">Item level (1)</a></li>
-                            </ul>
-                        </li>
+                        <?php
+                        foreach ($navs as $n){
+                            $activom = '';
+                            if($n->menu_controller == $_SESSION['controlador']){
+                                $activom = "class=\"active\"";
+                                $_SESSION['controlador'] = $n->menu_name;
+                            }
+                            ?>
+                            <li <?php echo $activom;?>>
+                                <a href="javascript:void(0)" aria-expanded="true"><i class="<?php echo $n->menu_icon?>"></i><span><?php echo $n->menu_name?></span></a>
+                                <ul class="collapse">
+                                    <?php
+                                    $option = $this->nav->listOptions($n->id_menu);
+                                    foreach ($option as $o){
+                                        $activoo = '';
+                                        if($o->optionm_function == $_SESSION['accion']){
+                                            $activoo = "class=\"active\"";
+                                            $_SESSION['accion'] = $o->optionm_name;
+                                        }
+                                        ?>
+                                        <li <?php echo $activoo;?>><a href="<?php echo _SERVER_. $o->optionm_url;?>"><?php echo $o->optionm_name;?></a></li>
+                                        <?php
+                                    }
+                                    ?>
+                                </ul>
+                            </li>
+                            <?php
+                        }
+                        ?>
                     </ul>
                 </nav>
             </div>

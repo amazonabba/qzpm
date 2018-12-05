@@ -13,36 +13,6 @@ class Menui{
         $this->pdo = Database::getConnection();
         $this->log = new Log();
     }
-    //Listar Los Menus Disponibles por Rol
-    public function listMenu($id_role){
-        try{
-            $sql = "Select m.menu_name, m.menu_icon from role r inner join rolemenu rl on r.id_role = rl.id_role inner join menu m on m.id_menu = rl.id_menu where rl.id_role = ?";
-            $stm = $this->pdo->prepare($sql);
-            $stm->execute([$id_role]);
-            $result = $stm->fetchAll();
-        } catch (Exception $e){
-            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
-            $result = 2;
-        }
-        return $result;
-
-    }
-    //Listar las opciones del menú
-    public function listMenuoption($menu){
-        try{
-            $sql = "Select o.option_name, o.option_url from menu m inner join optionmenu o on o.id_menu = m.id_menu where m.menu_name = ? and o.option_show = 1";
-            $stm = $this->pdo->prepare($sql);
-            $stm->execute([$menu]);
-            $result = $stm->fetchAll();
-        } catch (Exception $e){
-            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
-            $result = 2;
-        }
-        return $result;
-
-    }
-
-
     //FUNCION USADA EN EL MENU INDEX
     //Sirve para leer los permisos al momento de solicitar index
     public function verificateViewRole($id_role, $view, $option){

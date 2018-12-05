@@ -14,7 +14,7 @@ define('_VIEW_PATH_', 'app/view/');
 define('_JS_', 'js/');
 //Estilos Index
 define('_VIEW_STYLES_', 'styles/assets/');
-define('_TITLE_', 'Rosame La Cosa');
+define('_TITLE_', 'Página Cool Sin Nombre');
 define('_ICON_', 'styles/rose.png');
 
 define('_PASS_','mm19rules');

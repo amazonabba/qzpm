@@ -21,6 +21,9 @@ require 'app/models/Menui.php';
 //Inicio clase para la encriptacion de contenido
 require 'app/models/Crypt.php';
 
+//Inicio Clase Para Generación de Menus Dinamicos
+require 'app/models/Navbar.php';
+
 //Inicialización de clases
 $errores = new Log();
 $menui = new Menui();

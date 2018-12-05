@@ -9,6 +9,7 @@
 
 <footer>
     <div class="footer-area">
-        <p>© Copyright 2018. Nada está reservado. Template by <a href="https://colorlib.com/wp/">Colorlib</a>.</p>
+        <p>© Copyright <?php echo date('Y');?>. Nada está reservado. Plantilla Hecha Con ♥ Por <a href="https://colorlib.com/wp/">Colorlib</a>. Software Por
+            <a href="#">César José Ruiz</a></p>
     </div>
 </footer>

@@ -12,6 +12,9 @@
 //Establecer zona horaria
 date_default_timezone_set('America/Lima');
 
+//Para Mostrar o No Errores (Comentado Para SI, Descomentado Para NO)
+//error_reporting(0);
+
 //LLamada a archivo gestor de base de datos
 require 'core/Database.php';
 //Levantamiento del Log para registro de errores

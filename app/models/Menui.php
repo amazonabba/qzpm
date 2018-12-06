@@ -26,7 +26,7 @@ class Menui{
                 $validate = true;
             }
         } catch (Exception $e){
-            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $validate = false;
         }
         return $validate;

@@ -21,6 +21,13 @@
 <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/jquery.slimscroll.min.js"></script>
 <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/jquery.slicknav.min.js"></script>
 
+<!-- Start datatable js -->
+<script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>datatable/js/jquery.dataTables.js"></script>
+<script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>datatable/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>datatable/js/dataTables.bootstrap4.min.js"></script>
+<script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>datatable/js/dataTables.responsive.min.js"></script>
+<script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>datatable/js/responsive.bootstrap.min.js"></script>
+
 <!-- all line chart activation -->
 <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/line-chart.js"></script>
 <!-- all pie chart -->

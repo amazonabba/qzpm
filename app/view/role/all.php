@@ -35,7 +35,7 @@
                                     <td><?php echo $m->id_role?></td>
                                     <td><?php echo $m->role_name?></td>
                                     <td><?php echo $m->role_description?></td>
-                                    <td><button type="button" class="btn btn-xs btn-primary">Editar</button><button type="button" class="btn btn-xs btn-success">Eliminar</button></td>
+                                    <td><a type="button" class="btn btn-xs btn-primary" href="<?php echo _SERVER_ . 'Role/edit/' . $m->id_role;?>" >Editar</a><a type="button" class="btn btn-xs btn-success" onclick="preguntarSiNo(<?php echo $m->id_role;?>)">Eliminar</a></td>
                                 </tr>
                                 <?php
                             }
@@ -59,6 +59,7 @@
 </div>
 <!-- jquery latest version -->
 <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/vendor/jquery-2.2.4.min.js"></script>
+<script src="<?php echo _SERVER_ . _JS_;?>domain.js"></script>
 <script src="<?php echo _SERVER_ . _JS_;?>role.js"></script>
 
 

@@ -45,10 +45,10 @@
             <div class="col-sm-6">
                 <div class="breadcrumbs-area clearfix">
                     <h4 class="page-title pull-left"><?php echo $_SESSION['controlador'];?></h4>
-                    <ul class="breadcrumbs pull-left">
+                    <!--<ul class="breadcrumbs pull-left">
                         <li><a href="#"><?php echo $_SESSION['accion'];?></a></li>
-                        <!--<li><span><?php echo $_SESSION['controlador'];?></span></li>-->
-                    </ul>
+                        <li><span><?php echo $_SESSION['controlador'];?></span></li>
+                    </ul>-->
                 </div>
             </div>
             <div class="col-sm-6 clearfix">

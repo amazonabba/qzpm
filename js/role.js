@@ -1,4 +1,4 @@
-function add() {
+function save() {
     var valor = "correcto";
     var role_name = $('#role_name').val();
     var role_description = $('#role_description').val();
@@ -25,12 +25,12 @@ function add() {
             "&role_description=" + role_description;
         $.ajax({
             type:"POST",
-            url:"http://localhost/qzpm/api/Role/save",
+            url: urlweb + "api/Role/save",
             data: cadena,
             success:function (r) {
                 if(r==1){
-                    alertify.success("Se envió chevere");
-                    location.href ='http://localhost/qzpm/Role/all';
+                    alertify.success("¡Guardado!");
+                    location.href = urlweb +  'Role/all';
                 } else {
                     alertify.error("Fallo el envio");
                 }
@@ -38,4 +38,27 @@ function add() {
         });
     }
 
+}
+
+function preguntarSiNo(id){
+    alertify.confirm('Eliminar Datos', '¿Esta seguro de eliminar este registro?',
+        function(){ deleter(id) }
+        , function(){ alertify.error('Operacion Cancelada')});
+}
+
+function deleter(id){
+    var cadena = "id=" + id;
+    $.ajax({
+        type:"POST",
+        url: urlweb + "api/Role/delete",
+        data : cadena,
+        success:function (r) {
+            if(r==1){
+                alertify.success('Registro Eliminado');
+                location.reload();
+            } else {
+                alertify.error('No se pudo realizar');
+            }
+        }
+    });
 }

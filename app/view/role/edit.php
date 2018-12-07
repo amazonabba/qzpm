@@ -2,11 +2,10 @@
 /**
  * Created by PhpStorm.
  * User: CesarJose39
- * Date: 05/12/2018
- * Time: 17:44
+ * Date: 07/12/2018
+ * Time: 10:16
  */
 ?>
-
 <!-- page title area end -->
 <div class="main-content-inner">
     <!-- MAIN CONTENT GOES HERE -->
@@ -18,17 +17,17 @@
                 <div class="col-12 mt-5">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="header-title">Agregar Nuevo Rol</h4>
+                            <h4 class="header-title">Editar Rol</h4>
                             <div class="form-group">
                                 <label class="col-form-label">Nombre Rol</label>
-                                <input class="form-control" type="text" id="role_name" placeholder="Ingrese Nombre del Rol...">
+                                <input class="form-control" type="text" id="role_name" value="<?php echo $rol_e->role_name;?>" placeholder="Ingrese Nombre del Rol...">
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label">Descripción Rol</label>
-                                <input class="form-control" type="text" id="role_description" placeholder="Ingrese Descripción del Rol...">
+                                <input class="form-control" type="text" id="role_description" value="<?php echo $rol_e->role_description;?>" placeholder="Ingrese Descripción del Rol...">
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-success" onclick="save()"> Agregar Rol</button>
+                                <button class="btn btn-success" onclick="save()"> Editar Rol</button>
                             </div>
                         </div>
                     </div>
@@ -52,3 +51,4 @@
 
 
 <?php require _VIEW_PATH_ . 'final.php';?>
+

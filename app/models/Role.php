@@ -31,10 +31,25 @@ class Role{
         return $result;
     }
 
+    //Listar Un Unico Rol por ID
+    public function list($id){
+        try{
+            $sql = 'select * from role where id_role = ? limit 1';
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $result = $stm->fetch();
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = [];
+        }
+        return $result;
+    }
+
     //Guardar o Editar Informacion de Role
     public function save($model){
         try {
-            if(empty($model->id_expense)){
+            if(empty($model->id_role)){
                 $sql = 'insert into role(
                     role_name, role_description
                     ) values(?,?)';
@@ -64,7 +79,20 @@ class Role{
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = 2;
         }
+        return $result;
+    }
 
+    //Borrar un Registro
+    public function delete($id){
+        try{
+            $sql = 'delete from role where id_role = ?';
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $result = 1;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
         return $result;
     }
 }

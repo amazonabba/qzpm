@@ -98,7 +98,10 @@
 <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/scripts.js"></script>
 
 <script type="text/javascript">
+
+
     function loginsistema() {
+        setInterval(logueando(), 500);
         var recordar = $('#recordar').prop('checked');
         var usuario = $('#user').val();
         var contrasenha = $('#pass').val();
@@ -111,6 +114,7 @@
             data: cadena,
             success:function (r) {
                 if(r==1){
+                    clearInterval(logueando());
                     //alert('Logueado');
                     alertify.success('Ingreso exitoso');
                     //location.href = "<?php echo _SERVER_;?>"
@@ -122,6 +126,10 @@
 
             }
         });
+    }
+
+    function logueando() {
+        alertify.warning('Validando...');
     }
 </script>
 </body>

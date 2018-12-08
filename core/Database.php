@@ -11,7 +11,7 @@ class Database{
 
     public static function getConnection(){
         if(empty(self::$db)){
-            $pdo = new PDO('mysql:host=localhost;dbname=rolebasebd;charset=utf8','root','');
+            $pdo = new PDO('mysql:host=guabba.com:3306;dbname=guabba_rosa;charset=utf8','guabba_root','Aa12345678');
             //En caso de trabajar localmente, descomentar la siguiente linea y comentar la anterior
             //$pdo = new PDO('mysql:host=localhost;dbname=zxcvbnm;charset=utf8','root','');
 

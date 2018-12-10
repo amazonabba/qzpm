@@ -125,13 +125,14 @@ if(file_exists($archivo)){
         if(isset($_COOKIE['role']) || isset($_SESSION['role'])){
             //LLEGA AQUI SI SE TRATA DE ACCEDER A ACCION O FUNCION SIN PERMISOS Y SI SE ESTA LOGUEADO
             $archivof = 'app/controllers/ErrorController.php';
+            $controlador = 'Error';
         } else {
             //LLEGA AQUI SI SE TRATA DE ACCEDER A ACCION O FUNCION SIN PERMISOS Y SI NO SE ESTA LOGUEADO
             $archivof = 'app/controllers/LoginController.php';
 
         }
         require $archivof;
-        $clase = sprintf('%sController', 'Login');
+        $clase = sprintf('%sController', $controlador);
         $clase = trim(ucfirst($clase));
         $accion = 'index';
         $controller = new $clase;

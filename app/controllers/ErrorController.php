@@ -10,4 +10,8 @@ class ErrorController{
     public function error(){
         require _VIEW_PATH_ . 'error/error.php';
     }
+
+    public function index(){
+        require _VIEW_PATH_ . 'error/error.php';
+    }
 }

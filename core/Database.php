@@ -23,9 +23,7 @@ class Database{
             //$pdo->execute();
 
             self::$db = $pdo;
-
         }
-
         return self::$db;
     }
 }

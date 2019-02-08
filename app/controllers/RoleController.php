@@ -23,7 +23,7 @@ class RoleController{
     public function all(){
         try{
             $this->nav = new Navbar();
-            $navs = $this->nav->listMenu($this->crypt->decrypt($_COOKIE['role'],_PASS_) ?? $this->crypt->decrypt($_SESSION['role'],_PASS_));
+            $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
             $role = $this->role->listAll();
             require _VIEW_PATH_ . 'header.php';
             require _VIEW_PATH_ . 'navbar.php';
@@ -39,7 +39,7 @@ class RoleController{
     public function add(){
         try{
             $this->nav = new Navbar();
-            $navs = $this->nav->listMenu($this->crypt->decrypt($_COOKIE['role'],_PASS_) ?? $this->crypt->decrypt($_SESSION['role'],_PASS_));
+            $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
             require _VIEW_PATH_ . 'header.php';
             require _VIEW_PATH_ . 'navbar.php';
             require _VIEW_PATH_ . 'user.php';
@@ -54,7 +54,7 @@ class RoleController{
     public function edit(){
         try{
             $this->nav = new Navbar();
-            $navs = $this->nav->listMenu($this->crypt->decrypt($_COOKIE['role'],_PASS_) ?? $this->crypt->decrypt($_SESSION['role'],_PASS_));
+            $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
             $id = $_GET['id'] ?? 0;
             if($id == 0){
                 throw new Exception('ID Sin Declarar');

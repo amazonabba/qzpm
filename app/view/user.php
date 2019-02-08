@@ -53,8 +53,8 @@
             </div>
             <div class="col-sm-6 clearfix">
                 <div class="user-profile pull-right">
-                    <img class="avatar user-thumb" src="<?php echo _SERVER_;?><?php echo $this->crypt->decrypt($_COOKIE['user_image'],_PASS_) ?? $this->crypt->decrypt($_SESSION['user_image'],_PASS_);?>" alt="avatar">
-                    <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?php echo $this->crypt->decrypt($_COOKIE['user_nickname'],_PASS_) ?? $this->crypt->decrypt($_SESSION['user_nickname'],_PASS_);?><i class="fa fa-angle-down"></i></h4>
+                    <img class="avatar user-thumb" src="<?php echo _SERVER_;?><?php echo $this->crypt->decrypt($_SESSION['user_image'],_PASS_);?>" alt="avatar">
+                    <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?php echo $this->crypt->decrypt($_SESSION['user_nickname'],_PASS_);?><i class="fa fa-angle-down"></i></h4>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="#">Configurar</a>
                         <a class="dropdown-item" href="<?php echo _SERVER_;?>api/Logout/singOut">Cerrar Sesión</a>

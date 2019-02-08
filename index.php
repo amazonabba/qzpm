@@ -49,6 +49,9 @@ session_start();
 //Variables Globales
 require 'core/globals.php';
 
+//Variables de Sesion y Cookies
+require 'core/session.php';
+
 //Inicio de Código de Verificación de Permisos
 
 //Captura de Datos para Obtener el Controlador y la Accion
@@ -88,9 +91,9 @@ if(file_exists($archivo)){
     //Variable Para Determinar Si Procede O No La Petición
     $autorizado = false;
 
-    if(isset($_COOKIE['role']) || isset($_SESSION['role'])){
+    if(isset($_SESSION['role'])){
         $crypt = new Crypt();
-        $role = $_COOKIE['role'] ?? $_SESSION['role'];
+        $role = $_SESSION['role'];
         $rol = $crypt->decrypt($role, _PASS_);
         $view = $controlador . '/' . $accion;
         $autorizado = $menui->verificateViewRole($rol, $controlador, $accion);

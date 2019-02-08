@@ -15,14 +15,17 @@ date_default_timezone_set('America/Lima');
 //Para Mostrar o No Errores (Comentado Para SI, Descomentado Para NO)
 //error_reporting(0);
 
-//LLamada a archivo gestor de base de datos
-require 'core/Database.php';
 //Levantamiento del Log para registro de errores
 require 'app/models/Log.php';
-//Levantamiento de registro de roles y permisos para acceso a vistas
-require 'app/models/Menui.php';
+
+//LLamada a archivo gestor de base de datos
+require 'core/Database.php';
+
 //Inicio clase para la encriptacion de contenido
 require 'app/models/Crypt.php';
+
+//Levantamiento de registro de roles y permisos para acceso a vistas
+require 'app/models/Menui.php';
 
 //Inicio Clase Para Generación de Menus Dinamicos
 require 'app/models/Navbar.php';
@@ -30,6 +33,8 @@ require 'app/models/Navbar.php';
 //Inicialización de clases
 $errores = new Log();
 $menui = new Menui();
+
+
 
 // Manejo de Errores Personalizado de PHP a Try/Catch
 function exception_error_handler($severidad, $mensaje, $fichero, $linea) {

@@ -15,5 +15,17 @@ class Menu{
         $this->log = new Log();
     }
 
+    public function list(){
+        try{
+            $sql = "select * from menu";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll();
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = [];
+        }
+        return $result;
 
+    }
 }

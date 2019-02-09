@@ -43,7 +43,7 @@
                                             $_SESSION['accion'] = $o->optionm_name;
                                         }
                                         ?>
-                                        <li <?php echo $activoo;?>><a href="<?php echo _SERVER_. $o->optionm_url;?>"><?php echo $o->optionm_name;?></a></li>
+                                        <li <?php echo $activoo;?>><a href="<?php echo _SERVER_. $n->menu_controller . '/'. $o->optionm_function;?>"><?php echo $o->optionm_name;?></a></li>
                                         <?php
                                     }
                                     ?>

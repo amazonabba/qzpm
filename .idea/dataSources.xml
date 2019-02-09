@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="rolebasebd@localhost" uuid="b7af04dd-7847-4402-bdb6-24fc5501e2c9">
+    <data-source source="LOCAL" name="qzpm@localhost" uuid="4a21ec02-a519-4a61-97fb-0f8c60a911d5">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/rolebasebd</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/qzpm</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

@@ -30,7 +30,7 @@ class Navbar{
     //Listar las opciones del menú
     public function listOptions($menu){
         try{
-            $sql = "select o.optionm_name, o.optionm_url, o.optionm_function from menu m inner join optionm o on m.id_menu = o.id_menu where m.id_menu = ? and o.optionm_status = 1 and o.optionm_show = 1 order by o.optionm_order desc";
+            $sql = "select o.optionm_name, o.optionm_function from menu m inner join optionm o on m.id_menu = o.id_menu where m.id_menu = ? and o.optionm_status = 1 and o.optionm_show = 1 order by o.optionm_order desc";
             $stm = $this->pdo->prepare($sql);
             $stm->execute([$menu]);
             $result = $stm->fetchAll();

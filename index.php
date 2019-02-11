@@ -13,7 +13,7 @@
 date_default_timezone_set('America/Lima');
 
 //Para Mostrar o No Errores (Comentado Para SI, Descomentado Para NO)
-//error_reporting(0);
+//error_reporting(E_ALL);
 
 //Levantamiento del Log para registro de errores
 require 'app/models/Log.php';

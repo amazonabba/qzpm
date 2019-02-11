@@ -1,0 +1,85 @@
+function save() {
+    var valor = "correcto";
+    var menu_name = $('#menu_name').val();
+    var menu_icon = $('#menu_icon').val();
+    var menu_controller = $('#menu_controller').val();
+    var menu_order = $('#menu_order').val();
+    var menu_status = $('#menu_status').val();
+    var menu_show = $('#menu_show').val();
+    var password = $('#password').val();
+
+    if(menu_name == ""){
+        alertify.error('El campo Nombre de Menú está vacío');
+        $('#menu_name').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#menu_name').css('border','');
+    }
+
+    if(menu_icon == ""){
+        alertify.error('El campo Icono del Menú está vacío');
+        $('#menu_icon').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#menu_icon').css('border','');
+    }
+
+    if(menu_controller == ""){
+        alertify.error('El campo Nombre Controlador está vacío');
+        $('#menu_controller').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#menu_controller').css('border','');
+    }
+
+    if(menu_order == ""){
+        alertify.error('El campo Orden Aparación está vacío');
+        $('#menu_order').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#menu_order').css('border','');
+    }
+
+    if(password == ""){
+        alertify.error('El campo Contraseña de Usuario está vacío');
+        $('#password').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#password').css('border','');
+    }
+
+
+    if (valor == "correcto"){
+        var cadena = "menu_name=" + menu_name +
+            "&menu_icon=" + menu_icon +
+            "&menu_controller=" + menu_controller +
+            "&menu_order=" + menu_order +
+            "&menu_status=" + menu_status +
+            "&menu_show=" + menu_show +
+            "&password=" + password;
+        $.ajax({
+            type:"POST",
+            url: urlweb + "api/Menu/save",
+            data: cadena,
+            success:function (r) {
+                switch (r) {
+                    case "1":
+                        alertify.success("¡Guardado!");
+                        location.href = urlweb +  'Menu/list';
+                        break;
+                    case "2":
+                        alertify.error("Fallo el envio");
+                        break;
+                    case "3":
+                        alertify.warning("La Contraseña de Usuario no es Correcta");
+                        $('#password').css('border','solid red');
+                        break;
+                    default:
+                        alertify.error("ERROR DESCONOCIDO");
+                }
+            }
+        });
+    }
+
+}
+

@@ -110,6 +110,69 @@ class MenuController{
         }
     }
 
+    public function functions(){
+        try{
+            $this->nav = new Navbar();
+            $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
+            $id_menu= $_GET['id'] ?? 0;
+            if($id_menu == 0){
+                throw new Exception('ID Sin Declarar');
+            }
+            $menuname = $this->menu->listMenuName($id_menu);
+            $options = $this->menu->listOptionsPerMenu($id_menu);
+            require _VIEW_PATH_ . 'header.php';
+            require _VIEW_PATH_ . 'navbar.php';
+            require _VIEW_PATH_ . 'user.php';
+            require _VIEW_PATH_ . 'option/list.php';
+        } catch (\Throwable $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
+            echo "<script language=\"javascript\">alert(\"Error Al Mostrar Contenido. Redireccionando Al Inicio\");</script>";
+            echo "<script language=\"javascript\">window.location.href=\"". _SERVER_ ."\";</script>";
+        }
+    }
+
+    public function addf(){
+        try{
+            $this->nav = new Navbar();
+            $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
+            $id_menu= $_GET['id'] ?? 0;
+            if($id_menu == 0){
+                throw new Exception('ID Sin Declarar');
+            }
+            $_SESSION['id_menuee'] = $id_menu;
+            $menuname = $this->menu->listMenuName($id_menu);
+            require _VIEW_PATH_ . 'header.php';
+            require _VIEW_PATH_ . 'navbar.php';
+            require _VIEW_PATH_ . 'user.php';
+            require _VIEW_PATH_ . 'option/add.php';
+        } catch (\Throwable $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
+            echo "<script language=\"javascript\">alert(\"Error Al Mostrar Contenido. Redireccionando Al Inicio\");</script>";
+            echo "<script language=\"javascript\">window.location.href=\"". _SERVER_ ."\";</script>";
+        }
+    }
+
+    public function editf(){
+        try{
+            $this->nav = new Navbar();
+            $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
+            $id_optionm= $_GET['id'] ?? 0;
+            if($id_optionm == 0){
+                throw new Exception('ID Sin Declarar');
+            }
+            $_SESSION['id_optionme'] = $id_optionm;
+            $opt = $this->menu->listOption($id_optionm);
+            require _VIEW_PATH_ . 'header.php';
+            require _VIEW_PATH_ . 'navbar.php';
+            require _VIEW_PATH_ . 'user.php';
+            require _VIEW_PATH_ . 'option/edit.php';
+        } catch (\Throwable $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
+            echo "<script language=\"javascript\">alert(\"Error Al Mostrar Contenido. Redireccionando Al Inicio\");</script>";
+            echo "<script language=\"javascript\">window.location.href=\"". _SERVER_ ."\";</script>";
+        }
+    }
+
     //Funciones
     public function save(){
         try{
@@ -200,12 +263,12 @@ class MenuController{
             $model = new Menu();
             if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
                 if(isset($_SESSION['id_optionme'])){
-                    $model->id_optionme = $_SESSION['id_optionme'];
+                    $model->id_optionm = $_SESSION['id_optionme'];
                     $model->optionm_name= $_POST['optionm_name'];
                     $model->optionm_function= $_POST['optionm_function'];
                     $model->optionm_show= $_POST['optionm_show'];
                     $model->optionm_status= $_POST['optionm_status'];
-                    $model->option_order= $_POST['option_order'];
+                    $model->optionm_order= $_POST['optionm_order'];
                     $result = $this->menu->saveOption($model);
                     unset($_SESSION['id_optionme']);
 
@@ -215,7 +278,7 @@ class MenuController{
                     $model->optionm_function= $_POST['optionm_function'];
                     $model->optionm_show= $_POST['optionm_show'];
                     $model->optionm_status= $_POST['optionm_status'];
-                    $model->option_order= $_POST['option_order'];
+                    $model->optionm_order= $_POST['optionm_order'];
                     $result = $this->menu->saveOption($model);
                     unset($_SESSION['id_menuee']);
                 }

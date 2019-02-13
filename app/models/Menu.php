@@ -204,12 +204,25 @@ class Menu{
         return $result;
     }
 
+    public function listOption($id){
+        try{
+            $sql = "select * from optionm where id_optionm = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $result = $stm->fetch();
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = [];
+        }
+        return $result;
+    }
+
     public function saveOption($model){
         try {
             if(empty($model->id_optionm)){
                 $sql = 'insert into optionm(
                     id_menu, optionm_name, optionm_function, optionm_show, optionm_status, optionm_order
-                    ) values(?,?,?,?,?,?,?)';
+                    ) values(?,?,?,?,?,?)';
                 $stm = $this->pdo->prepare($sql);
                 $stm->execute([
                     $model->id_menu,
@@ -217,7 +230,7 @@ class Menu{
                     $model->optionm_function,
                     $model->optionm_show,
                     $model->optionm_status,
-                    $model->option_order
+                    $model->optionm_order
                 ]);
             } else {
                 $sql = "update optionm
@@ -235,7 +248,7 @@ class Menu{
                     $model->optionm_function,
                     $model->optionm_show,
                     $model->optionm_status,
-                    $model->option_order,
+                    $model->optionm_order,
                     $model->id_optionm
                 ]);
             }

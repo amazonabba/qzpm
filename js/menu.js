@@ -83,6 +83,81 @@ function save() {
 
 }
 
+function savef() {
+    var valor = "correcto";
+    var optionm_name = $('#optionm_name').val();
+    var optionm_function = $('#optionm_function').val();
+    var optionm_show = $('#optionm_show').val();
+    var optionm_status = $('#optionm_status').val();
+    var optionm_order = $('#optionm_order').val();
+    var password = $('#password').val();
+
+    if(optionm_name == ""){
+        alertify.error('El campo Nombre Opción está vacío');
+        $('#optionm_name').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#optionm_name').css('border','');
+    }
+
+    if(optionm_function == ""){
+        alertify.error('El campo Nombre Función está vacío');
+        $('#optionm_function').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#optionm_function').css('border','');
+    }
+
+    if(optionm_order == ""){
+        alertify.error('El campo Orden está vacío');
+        $('#optionm_order').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#optionm_order').css('border','');
+    }
+
+    if(password == ""){
+        alertify.error('El campo Contraseña de Usuario está vacío');
+        $('#password').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#password').css('border','');
+    }
+
+
+    if (valor == "correcto"){
+        var cadena = "optionm_name=" + optionm_name +
+            "&optionm_function=" + optionm_function +
+            "&optionm_show=" + optionm_show +
+            "&optionm_status=" + optionm_status +
+            "&optionm_order=" + optionm_order +
+            "&password=" + password;
+        $.ajax({
+            type:"POST",
+            url: urlweb + "api/Menu/saveOption",
+            data: cadena,
+            success:function (r) {
+                switch (r) {
+                    case "1":
+                        alertify.success("¡Guardado!");
+                        location.href = urlweb +  'Menu/list';
+                        break;
+                    case "2":
+                        alertify.error("Fallo el envio");
+                        break;
+                    case "3":
+                        alertify.warning("La Contraseña de Usuario no es Correcta");
+                        $('#password').css('border','solid red');
+                        break;
+                    default:
+                        alertify.error("ERROR DESCONOCIDO");
+                }
+            }
+        });
+    }
+
+}
+
 function preguntarSiNoAR(id_menu, id_role){
     alertify.confirm('Agregar Relación', '¿Esta seguro que desea crear está relación?',
         function(){ addRole(id_menu, id_role) }

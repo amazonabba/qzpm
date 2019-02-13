@@ -106,4 +106,221 @@ class Menu{
         return $result;
 
     }
+
+    public function deleteMenu($id_menu){
+        try{
+            $sql = "update menu set menu_status = 0 where id_menu = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$$id_menu]);
+            $result = 1;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        return $result;
+
+    }
+
+    public function listMenuRole($id){
+        try{
+            $sql = "select r2.id_role, r2.role_name, r2.role_description from rolemenu r inner join menu m on r.id_menu = m.id_menu inner join role r2 on r.id_role = r2.id_role where r.id_menu = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $result = $stm->fetchAll();
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = [];
+        }
+        return $result;
+
+    }
+
+    public function listRole(){
+        try{
+            $sql = "select * from role";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll();
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = [];
+        }
+        return $result;
+    }
+
+    public function listMenuName($id){
+        try{
+            $sql = "select menu_name from menu where id_menu = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $result = $stm->fetch();
+            $name = $result->menu_name;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $name = "";
+        }
+        return $name;
+
+    }
+
+    public function insertRole($id_menu, $id_role){
+        try{
+            $sql = "insert into rolemenu (id_role, id_menu) values(?,?)";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id_role, $id_menu]);
+            $result = 1;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        return $result;
+
+    }
+
+    public function deleteRole($id_menu, $id_role){
+        try{
+            $sql = "delete from rolemenu where id_role = ? and id_menu = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id_role, $id_menu]);
+            $result = 1;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        return $result;
+
+    }
+
+    public function listOptionsPerMenu($id){
+        try{
+            $sql = "select * from optionm where id_menu = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $result = $stm->fetchAll();
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = [];
+        }
+        return $result;
+    }
+
+    public function saveOption($model){
+        try {
+            if(empty($model->id_optionm)){
+                $sql = 'insert into optionm(
+                    id_menu, optionm_name, optionm_function, optionm_show, optionm_status, optionm_order
+                    ) values(?,?,?,?,?,?,?)';
+                $stm = $this->pdo->prepare($sql);
+                $stm->execute([
+                    $model->id_menu,
+                    $model->optionm_name,
+                    $model->optionm_function,
+                    $model->optionm_show,
+                    $model->optionm_status,
+                    $model->option_order
+                ]);
+            } else {
+                $sql = "update optionm
+                set
+                optionm_name = ?,
+                optionm_function = ?,
+                optionm_show = ?,
+                optionm_status = ?,
+                optionm_order = ?
+                where id_optionm = ?";
+
+                $stm = $this->pdo->prepare($sql);
+                $stm->execute([
+                    $model->optionm_name,
+                    $model->optionm_function,
+                    $model->optionm_show,
+                    $model->optionm_status,
+                    $model->option_order,
+                    $model->id_optionm
+                ]);
+            }
+            $result = 1;
+        } catch (Exception $e){
+            //throw new Exception($e->getMessage());
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        return $result;
+    }
+
+    public function deleteOption($id_optionm){
+        try{
+            $sql = "update optionm set optionm_status = 0 where id_optionm = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id_optionm]);
+            $result = 1;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        return $result;
+
+    }
+
+    public function listPermitPerOption($id){
+        try{
+            $sql = "select * from permit where id_permit = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $result = $stm->fetchAll();
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = [];
+        }
+        return $result;
+    }
+
+    public function savePermit($model){
+        try {
+            if(empty($model->id_permit)){
+                $sql = 'insert into permit(
+                    id_optionm, permit_action, permit_status
+                    ) values(?,?,?)';
+                $stm = $this->pdo->prepare($sql);
+                $stm->execute([
+                    $model->id_optionm,
+                    $model->permit_action,
+                    $model->permit_status
+                ]);
+            } else {
+                $sql = "update permit
+                set
+                permit_action = ?,
+                permit_status = ?
+                where id_permit = ?";
+
+                $stm = $this->pdo->prepare($sql);
+                $stm->execute([
+                    $model->permit_action,
+                    $model->permit_status,
+                    $model->id_permit
+                ]);
+            }
+            $result = 1;
+        } catch (Exception $e){
+            //throw new Exception($e->getMessage());
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        return $result;
+    }
+
+    public function deletePermit($id_permit){
+        try{
+            $sql = "delete from permit where id_permit = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id_permit]);
+            $result = 1;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        return $result;
+
+    }
 }

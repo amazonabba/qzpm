@@ -31,4 +31,22 @@ class Log{
         return $result;
     }
 
+    function eliminarFilaIgual($array, $valor){
+        $i = 0;
+        foreach($array as $a){
+            if($a->id_role == $valor){
+                unset($array[$i]);
+            }
+            $i++;
+        }
+        $newA = [];
+        $j = 0;
+        foreach ($array as $ar){
+            $newA[$j]["id_role"] = $ar->id_role;
+            $newA[$j]["role_name"] = $ar->role_name;
+            $newA[$j]["role_description"] = $ar->role_description;
+        }
+        return $newA;
+    }
+
 }

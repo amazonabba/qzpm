@@ -2,8 +2,18 @@
 <div class="main-content-inner">
     <!-- MAIN CONTENT GOES HERE -->
     <!--Todo tu codigo cool and nice va aqui-->
+    <div class="row">
+        <!-- Dark table start -->
+        <div class="col-12 mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Lista de Menús Registrados</h4>
 
-
+                </div>
+            </div>
+        </div>
+        <!-- Dark table end -->
+    </div>
 </div>
 </div>
 <!-- main content area end -->

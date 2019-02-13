@@ -42,7 +42,4 @@
     <!-- modernizr css -->
     <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/vendor/modernizr-2.8.3.min.js"></script>
 
-    <script type="text/javascript">
-        var ulrweb = 'http://localhost/bpsoft/'
-    </script>
 </head>

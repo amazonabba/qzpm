@@ -83,3 +83,97 @@ function save() {
 
 }
 
+function preguntarSiNoAR(id_menu, id_role){
+    alertify.confirm('Agregar Relación', '¿Esta seguro que desea crear está relación?',
+        function(){ addRole(id_menu, id_role) }
+        , function(){ alertify.error('Operacion Cancelada')});
+}
+
+function addRole(id_menu, id_role){
+    var valor = "correcto";
+    var password = $('#password').val();
+
+    if(password == ""){
+        alertify.error('El campo Contraseña de Usuario está vacío');
+        $('#password').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#password').css('border','');
+    }
+
+    if(valor == "correcto"){
+        var cadena = "id_menu=" + id_menu +
+            "&id_role=" + id_role +
+            "&password=" + password;
+        $.ajax({
+            type:"POST",
+            url: urlweb + "api/Menu/insertRole",
+            data : cadena,
+            success:function (r) {
+                switch (r) {
+                    case "1":
+                        alertify.success("¡Guardado!");
+                        location.reload();
+                        break;
+                    case "2":
+                        alertify.error("Fallo el envio");
+                        break;
+                    case "3":
+                        alertify.warning("La Contraseña de Usuario no es Correcta");
+                        $('#password').css('border','solid red');
+                        break;
+                    default:
+                        alertify.error("ERROR DESCONOCIDO");
+                }
+            }
+        });
+    }
+
+}
+
+function preguntarSiNoDR(id_menu, id_role){
+    alertify.confirm('Eliminar Relación', '¿Esta seguro que desea eliminar está relación?',
+        function(){ deleteRole(id_menu, id_role) }
+        , function(){ alertify.error('Operacion Cancelada')});
+}
+
+function deleteRole(id_menu, id_role){
+    var valor = "correcto";
+    var password = $('#password').val();
+
+    if(password == ""){
+        alertify.error('El campo Contraseña de Usuario está vacío');
+        $('#password').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#password').css('border','');
+    }
+
+    if(valor == "correcto"){
+        var cadena = "id_menu=" + id_menu +
+            "&id_role=" + id_role +
+            "&password=" + password;
+        $.ajax({
+            type:"POST",
+            url: urlweb + "api/Menu/deleteRole",
+            data : cadena,
+            success:function (r) {
+                switch (r) {
+                    case "1":
+                        alertify.success("¡Guardado!");
+                        location.reload();
+                        break;
+                    case "2":
+                        alertify.error("Fallo el envio");
+                        break;
+                    case "3":
+                        alertify.warning("La Contraseña de Usuario no es Correcta");
+                        $('#password').css('border','solid red');
+                        break;
+                    default:
+                        alertify.error("ERROR DESCONOCIDO");
+                }
+            }
+        });
+    }
+}

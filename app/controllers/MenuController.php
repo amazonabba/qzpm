@@ -31,7 +31,7 @@ class MenuController{
         } catch (\Throwable $e){
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
             echo "<script language=\"javascript\">alert(\"Error Al Mostrar Contenido. Redireccionando Al Inicio\");</script>";
-            echo "<script language=\"javascript\">window.location.href=\"index.php\";</script>";
+            echo "<script language=\"javascript\">window.location.href=\"". _SERVER_ ."\";</script>";
         }
     }
 
@@ -74,6 +74,7 @@ class MenuController{
 
     public function icons(){
         try{
+            $this->nav = new Navbar();
             $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
             require _VIEW_PATH_ . 'header.php';
             require _VIEW_PATH_ . 'navbar.php';
@@ -82,10 +83,34 @@ class MenuController{
         } catch (\Throwable $e){
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
             echo "<script language=\"javascript\">alert(\"Error Al Mostrar Contenido. Redireccionando Al Inicio\");</script>";
-            echo "<script language=\"javascript\">window.location.href=\"index.php\";</script>";
+            echo "<script language=\"javascript\">window.location.href=\"". _SERVER_ ."\";</script>";
         }
     }
 
+    public function role(){
+        try{
+            $this->nav = new Navbar();
+            $id_menu = $_GET['id'] ?? 0;
+            if($id_menu == 0){
+                throw new Exception('ID Sin Declarar');
+            }
+            $menust = $this->menu->listMenuRole($id_menu);
+            $menusf = $this->menu->listRole();
+
+            $menuname = $this->menu->listMenuName($id_menu);
+            $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
+            require _VIEW_PATH_ . 'header.php';
+            require _VIEW_PATH_ . 'navbar.php';
+            require _VIEW_PATH_ . 'user.php';
+            require _VIEW_PATH_ . 'menu/role.php';
+        } catch (\Throwable $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
+            echo "<script language=\"javascript\">alert(\"Error Al Mostrar Contenido. Redireccionando Al Inicio\");</script>";
+            echo "<script language=\"javascript\">window.location.href=\"". _SERVER_ ."\";</script>";
+        }
+    }
+
+    //Funciones
     public function save(){
         try{
             $model = new Menu();
@@ -108,6 +133,154 @@ class MenuController{
                     $model->menu_status= $_POST['menu_status'];
                     $model->menu_show= $_POST['menu_show'];
                     $result = $this->menu->save($model);
+                }
+            } else {
+                $result = 3;
+            }
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        echo $result;
+    }
+
+    public function deleteMenu(){
+        try{
+            if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
+                if(isset($_POST['id_menu'])){
+                    $result = $this->menu->deleteMenu($_POST['id_menu']);
+                }
+            } else {
+                $result = 3;
+            }
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        echo $result;
+    }
+
+    public function insertRole(){
+        try{
+            if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
+                if(isset($_POST['id_role']) && isset($_POST['id_menu'])){
+                    $result = $this->menu->insertRole($_POST['id_menu'], $_POST['id_role']);
+                }
+            } else {
+                $result = 3;
+            }
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        echo $result;
+    }
+
+    public function deleteRole(){
+        try{
+            if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
+                if(isset($_POST['id_role']) && isset($_POST['id_menu'])){
+                    $result = $this->menu->deleteRole($_POST['id_menu'], $_POST['id_role']);
+                }
+            } else {
+                $result = 3;
+            }
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        echo $result;
+    }
+
+    public function saveOption(){
+        try{
+            $model = new Menu();
+            if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
+                if(isset($_SESSION['id_optionme'])){
+                    $model->id_optionme = $_SESSION['id_optionme'];
+                    $model->optionm_name= $_POST['optionm_name'];
+                    $model->optionm_function= $_POST['optionm_function'];
+                    $model->optionm_show= $_POST['optionm_show'];
+                    $model->optionm_status= $_POST['optionm_status'];
+                    $model->option_order= $_POST['option_order'];
+                    $result = $this->menu->saveOption($model);
+                    unset($_SESSION['id_optionme']);
+
+                } else {
+                    $model->id_menu = $_SESSION['id_menuee'];
+                    $model->optionm_name= $_POST['optionm_name'];
+                    $model->optionm_function= $_POST['optionm_function'];
+                    $model->optionm_show= $_POST['optionm_show'];
+                    $model->optionm_status= $_POST['optionm_status'];
+                    $model->option_order= $_POST['option_order'];
+                    $result = $this->menu->saveOption($model);
+                    unset($_SESSION['id_menuee']);
+                }
+            } else {
+                $result = 3;
+            }
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        echo $result;
+    }
+
+    public function deleteOption(){
+        try{
+            if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
+                if(isset($_POST['id_optionm'])){
+                    $result = $this->menu->deleteOption($_POST['id_optionm']);
+                }
+            } else {
+                $result = 3;
+            }
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        echo $result;
+    }
+
+    public function savePermit(){
+        try{
+            $model = new Menu();
+            if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
+                if(isset($_SESSION['id_permite'])){
+                    $model->id_permite = $_SESSION['id_permite'];
+                    $model->permit_action= $_POST['permit_action'];
+                    $model->permit_status= $_POST['permit_status'];
+                    $result = $this->menu->saveOption($model);
+                    unset($_SESSION['id_optionme']);
+
+                } else {
+                    $model->id_optionm = $_SESSION['id_optionmee'];
+                    $model->permit_action= $_POST['permit_action'];
+                    $model->permit_status= $_POST['permit_status'];
+                    $result = $this->menu->saveOption($model);
+                    unset($_SESSION['id_optionmee']);
+                }
+            } else {
+                $result = 3;
+            }
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        echo $result;
+    }
+
+    public function deletePermit(){
+        try{
+            if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
+                if(isset($_POST['$id_permit'])){
+                    $result = $this->menu->deletePermit($_POST['$id_permit']);
                 }
             } else {
                 $result = 3;

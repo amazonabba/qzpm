@@ -45,7 +45,7 @@
                                     <td><?php echo $m->menu_order?></td>
                                     <td><?php echo ($m->menu_status == 1) ? 'ACTIVO' : 'NO ACTIVO';?></td>
                                     <td><?php echo ($m->menu_show == 1) ? 'ACTIVO' : 'NO ACTIVO';?></td>
-                                    <td><a type="button" class="btn btn-xs btn-warning btne" href="<?php echo _SERVER_ . 'Menu/edit/' . $m->id_menu;?>" >Editar</a><a type="button" class="btn btn-xs btn-primary btne" href="<?php echo _SERVER_ . 'Menu/role/' . $m->id_menu;?>" >Gestionar Roles</a><a type="button" class="btn btn-xs btn-secondary btne" href="<?php echo _SERVER_ . 'Menu/functions/' . $m->id_menu;?>" >Ver Opciones</a><a type="button" class="btn btn-xs btn-danger" onclick="preguntarSiNo(<?php echo $m->id_menu;?>)">Eliminar</a></td>
+                                    <td><a type="button" class="btn btn-xs btn-warning btne" href="<?php echo _SERVER_ . 'Menu/edit/' . $m->id_menu;?>" >Editar</a><a type="button" class="btn btn-xs btn-primary btne" href="<?php echo _SERVER_ . 'Menu/role/' . $m->id_menu;?>" >Gestionar Acceso de Roles</a><a type="button" class="btn btn-xs btn-secondary btne" href="<?php echo _SERVER_ . 'Menu/functions/' . $m->id_menu;?>" >Ver Opciones</a><a type="button" class="btn btn-xs btn-danger" onclick="preguntarSiNo(<?php echo $m->id_menu;?>)">Eliminar</a></td>
                                 </tr>
                                 <?php
                             }

@@ -111,7 +111,7 @@ class Menu{
         try{
             $sql = "update menu set menu_status = 0 where id_menu = ?";
             $stm = $this->pdo->prepare($sql);
-            $stm->execute([$$id_menu]);
+            $stm->execute([$id_menu]);
             $result = 1;
         } catch (Exception $e){
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
@@ -155,6 +155,21 @@ class Menu{
             $stm->execute([$id]);
             $result = $stm->fetch();
             $name = $result->menu_name;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $name = "";
+        }
+        return $name;
+
+    }
+
+    public function listOptionName($id){
+        try{
+            $sql = "select optionm_name from optionm where id_optionm = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $result = $stm->fetch();
+            $name = $result->optionm_name;
         } catch (Exception $e){
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $name = "";
@@ -277,10 +292,23 @@ class Menu{
 
     public function listPermitPerOption($id){
         try{
-            $sql = "select * from permit where id_permit = ?";
+            $sql = "select * from permit where id_optionm = ?";
             $stm = $this->pdo->prepare($sql);
             $stm->execute([$id]);
             $result = $stm->fetchAll();
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = [];
+        }
+        return $result;
+    }
+
+    public function listPermit($id){
+        try{
+            $sql = "select * from permit where id_permit = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $result = $stm->fetch();
         } catch (Exception $e){
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
             $result = [];
@@ -334,6 +362,5 @@ class Menu{
             $result = 2;
         }
         return $result;
-
     }
 }

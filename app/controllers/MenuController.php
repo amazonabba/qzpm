@@ -173,6 +173,69 @@ class MenuController{
         }
     }
 
+    public function listp(){
+        try{
+            $this->nav = new Navbar();
+            $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
+            $id_optionm= $_GET['id'] ?? 0;
+            if($id_optionm == 0){
+                throw new Exception('ID Sin Declarar');
+            }
+            $optionname = $this->menu->listOptionName($id_optionm);
+            $permits = $this->menu->listPermitPerOption($id_optionm);
+            require _VIEW_PATH_ . 'header.php';
+            require _VIEW_PATH_ . 'navbar.php';
+            require _VIEW_PATH_ . 'user.php';
+            require _VIEW_PATH_ . 'permit/list.php';
+        } catch (\Throwable $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
+            echo "<script language=\"javascript\">alert(\"Error Al Mostrar Contenido. Redireccionando Al Inicio\");</script>";
+            echo "<script language=\"javascript\">window.location.href=\"". _SERVER_ ."\";</script>";
+        }
+    }
+
+    public function addp(){
+        try{
+            $this->nav = new Navbar();
+            $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
+            $id_optionm= $_GET['id'] ?? 0;
+            if($id_optionm == 0){
+                throw new Exception('ID Sin Declarar');
+            }
+            $_SESSION['id_optionmee'] = $id_optionm;
+            $optionname = $this->menu->listOptionName($id_optionm);
+            require _VIEW_PATH_ . 'header.php';
+            require _VIEW_PATH_ . 'navbar.php';
+            require _VIEW_PATH_ . 'user.php';
+            require _VIEW_PATH_ . 'permit/add.php';
+        } catch (\Throwable $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
+            echo "<script language=\"javascript\">alert(\"Error Al Mostrar Contenido. Redireccionando Al Inicio\");</script>";
+            echo "<script language=\"javascript\">window.location.href=\"". _SERVER_ ."\";</script>";
+        }
+    }
+
+    public function editp(){
+        try{
+            $this->nav = new Navbar();
+            $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
+            $id_permit= $_GET['id'] ?? 0;
+            if($id_permit == 0){
+                throw new Exception('ID Sin Declarar');
+            }
+            $_SESSION['id_permite'] = $id_permit;
+            $per = $this->menu->listPermit($id_permit);
+            require _VIEW_PATH_ . 'header.php';
+            require _VIEW_PATH_ . 'navbar.php';
+            require _VIEW_PATH_ . 'user.php';
+            require _VIEW_PATH_ . 'permit/edit.php';
+        } catch (\Throwable $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);;
+            echo "<script language=\"javascript\">alert(\"Error Al Mostrar Contenido. Redireccionando Al Inicio\");</script>";
+            echo "<script language=\"javascript\">window.location.href=\"". _SERVER_ ."\";</script>";
+        }
+    }
+
     //Funciones
     public function save(){
         try{
@@ -315,17 +378,17 @@ class MenuController{
             $model = new Menu();
             if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
                 if(isset($_SESSION['id_permite'])){
-                    $model->id_permite = $_SESSION['id_permite'];
+                    $model->id_permit = $_SESSION['id_permite'];
                     $model->permit_action= $_POST['permit_action'];
                     $model->permit_status= $_POST['permit_status'];
-                    $result = $this->menu->saveOption($model);
-                    unset($_SESSION['id_optionme']);
+                    $result = $this->menu->savePermit($model);
+                    unset($_SESSION['id_permite']);
 
                 } else {
                     $model->id_optionm = $_SESSION['id_optionmee'];
                     $model->permit_action= $_POST['permit_action'];
                     $model->permit_status= $_POST['permit_status'];
-                    $result = $this->menu->saveOption($model);
+                    $result = $this->menu->savePermit($model);
                     unset($_SESSION['id_optionmee']);
                 }
             } else {
@@ -340,9 +403,11 @@ class MenuController{
     }
 
     public function deletePermit(){
+        $result = 0;
         try{
             if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
                 if(isset($_POST['$id_permit'])){
+                    //$this->menu->deletePermit($_POST['$id_permit']);
                     $result = $this->menu->deletePermit($_POST['$id_permit']);
                 }
             } else {

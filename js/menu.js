@@ -158,6 +158,58 @@ function savef() {
 
 }
 
+function savep() {
+    var valor = "correcto";
+    var permit_action = $('#permit_action').val();
+    var permit_status = $('#permit_status').val();
+    var password = $('#password').val();
+
+    if(permit_action == ""){
+        alertify.error('El campo Acción está vacío');
+        $('#permit_action').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#optionm_name').css('border','');
+    }
+    if(password == ""){
+        alertify.error('El campo Contraseña de Usuario está vacío');
+        $('#password').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#password').css('border','');
+    }
+
+
+    if (valor == "correcto"){
+        var cadena = "permit_action=" + permit_action +
+            "&permit_status=" + permit_status +
+            "&password=" + password;
+        $.ajax({
+            type:"POST",
+            url: urlweb + "api/Menu/savePermit",
+            data: cadena,
+            success:function (r) {
+                switch (r) {
+                    case "1":
+                        alertify.success("¡Guardado!");
+                        location.reload();
+                        break;
+                    case "2":
+                        alertify.error("Fallo el envio");
+                        break;
+                    case "3":
+                        alertify.warning("La Contraseña de Usuario no es Correcta");
+                        $('#password').css('border','solid red');
+                        break;
+                    default:
+                        alertify.error("ERROR DESCONOCIDO");
+                }
+            }
+        });
+    }
+
+}
+
 function preguntarSiNoAR(id_menu, id_role){
     alertify.confirm('Agregar Relación', '¿Esta seguro que desea crear está relación?',
         function(){ addRole(id_menu, id_role) }
@@ -231,6 +283,53 @@ function deleteRole(id_menu, id_role){
         $.ajax({
             type:"POST",
             url: urlweb + "api/Menu/deleteRole",
+            data : cadena,
+            success:function (r) {
+                switch (r) {
+                    case "1":
+                        alertify.success("¡Guardado!");
+                        location.reload();
+                        break;
+                    case "2":
+                        alertify.error("Fallo el envio");
+                        break;
+                    case "3":
+                        alertify.warning("La Contraseña de Usuario no es Correcta");
+                        $('#password').css('border','solid red');
+                        break;
+                    default:
+                        alertify.error("ERROR DESCONOCIDO");
+                }
+            }
+        });
+    }
+}
+
+
+function preguntarSiNoDP(id_permit){
+    alertify.confirm('Eliminar Permiso', '¿Esta seguro que desea eliminar este permiso?',
+        function(){ deletePermit(id_permit) }
+        , function(){ alertify.error('Operacion Cancelada')});
+}
+
+function deletePermit(id_permit){
+    var valor = "correcto";
+    var password = $('#password').val();
+
+    if(password == ""){
+        alertify.error('El campo Contraseña de Usuario está vacío');
+        $('#password').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#password').css('border','');
+    }
+
+    if(valor == "correcto"){
+        var cadena = "id_permit=" + id_permit +
+            "&password=" + password;
+        $.ajax({
+            type:"POST",
+            url: urlweb + "api/Menu/deletePermit",
             data : cadena,
             success:function (r) {
                 switch (r) {

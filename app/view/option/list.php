@@ -66,7 +66,7 @@
                                     <td><?php echo $show?></td>
                                     <td><?php echo $status?></td>
                                     <td><?php echo $m->optionm_order?></td>
-                                    <td><a type="button" class="btn btn-xs btn-warning btne" href="<?php echo _SERVER_ . 'Menu/editf/' . $m->id_optionm;?>">Editar</a></td>
+                                    <td><a type="button" class="btn btn-xs btn-warning btne" href="<?php echo _SERVER_ . 'Menu/editf/' . $m->id_optionm;?>">Editar</a><a type="button" class="btn btn-xs btn-success btne" href="<?php echo _SERVER_ . 'Menu/listp/' . $m->id_optionm;?>">Ver Permisos</a></td>
                                 </tr>
                                 <?php
                             }

@@ -33,7 +33,6 @@
         <div class="col-12 mt-5">
             <div class="card">
                 <div class="card-body">
-
                     <div class="data-tables datatable-dark">
                         <table id="dataTable3" class="text-center">
                             <thead class="text-capitalize">
@@ -70,6 +69,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <a type="button" class="btn btn-xs btn-info btne" href="<?php echo _SERVER_ . 'Menu/list'?>" >Volver Al Menú Anterior</a>
                 </div>
             </div>
         </div>

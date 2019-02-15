@@ -14,7 +14,7 @@ class Rolei{
         $this->log = new Log();
     }
 
-    public function readAllrole(){
+    /*public function readAllrole(){
         try{
             $sql = 'select * from role';
             $stm = $this->pdo->prepare($sql);
@@ -26,8 +26,6 @@ class Rolei{
         }
         return $result;
     }
-
-
 
     public function save($model){
         try {
@@ -134,7 +132,7 @@ class Rolei{
         }
         return $result;
 
-    }
+    }*/
 
     //FUNCION USADA EN API
     //SIRVE PARA VERIFICAR SI EL ACCESO ESTÁ PERMITITDO
@@ -146,7 +144,11 @@ class Rolei{
             $stm->execute([$id_role, $controller, $accion]);
             $result = $stm->fetchAll();
             if(count($result) > 0){
-                $validate = true;
+                if($result[0]->menu_status == 1 && $result[0]->permit_status == 1){
+                    $validate = true;
+                } else {
+                    $validate = false;
+                }
             }
         } catch (Exception $e){
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);

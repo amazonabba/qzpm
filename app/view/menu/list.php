@@ -35,6 +35,14 @@
                             <tbody>
                             <?php
                             foreach ($menu as $m){
+                                $show = "<a class=\"btn btn-xs btn-outline-danger\">NO</a>";
+                                $status = "<a class=\"btn btn-xs btn-outline-danger\">DESHABILITADO</a>";
+                                if($m->menu_show == 1){
+                                    $show = "<a class=\"btn btn-xs btn-outline-success\">SI</a>";
+                                }
+                                if($m->menu_status == 1){
+                                    $status = "<a class=\"btn btn-xs btn-outline-success\">HABILITADO</a>";
+                                }
                                 ?>
                                 <tr>
                                     <td><?php echo $m->id_menu?></td>
@@ -43,9 +51,9 @@
                                     <td><i class="<?php echo $m->menu_icon?>"></i></td>
                                     <td><?php echo $m->menu_controller?></td>
                                     <td><?php echo $m->menu_order?></td>
-                                    <td><?php echo ($m->menu_status == 1) ? 'ACTIVO' : 'NO ACTIVO';?></td>
-                                    <td><?php echo ($m->menu_show == 1) ? 'ACTIVO' : 'NO ACTIVO';?></td>
-                                    <td><a type="button" class="btn btn-xs btn-warning btne" href="<?php echo _SERVER_ . 'Menu/edit/' . $m->id_menu;?>" >Editar</a><a type="button" class="btn btn-xs btn-primary btne" href="<?php echo _SERVER_ . 'Menu/role/' . $m->id_menu;?>" >Gestionar Acceso de Roles</a><a type="button" class="btn btn-xs btn-secondary btne" href="<?php echo _SERVER_ . 'Menu/functions/' . $m->id_menu;?>" >Ver Opciones</a><a type="button" class="btn btn-xs btn-danger" onclick="preguntarSiNo(<?php echo $m->id_menu;?>)">Eliminar</a></td>
+                                    <td><?php echo $status;?></td>
+                                    <td><?php echo $show;?></td>
+                                    <td><a type="button" class="btn btn-xs btn-warning btne" href="<?php echo _SERVER_ . 'Menu/edit/' . $m->id_menu;?>" >Editar</a><a type="button" class="btn btn-xs btn-primary btne" href="<?php echo _SERVER_ . 'Menu/role/' . $m->id_menu;?>" >Gestionar Acceso de Roles</a><a type="button" class="btn btn-xs btn-secondary btne" href="<?php echo _SERVER_ . 'Menu/functions/' . $m->id_menu;?>" target="_blank">Ver Opciones</a></td>
                                 </tr>
                                 <?php
                             }
@@ -68,10 +76,17 @@
 <!-- footer area end-->
 </div>
 <!-- jquery latest version -->
+<!--
+<a type="button" class="btn btn-xs btn-danger" onclick="preguntarSiNo(<?php echo $m->id_menu;?>)">Eliminar</a>
+Si estas leyendo esto...
+¡Felicidades, eres un hacker :D!
+-->
 <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/vendor/jquery-2.2.4.min.js"></script>
 <script src="<?php echo _SERVER_ . _JS_;?>domain.js"></script>
 <script src="<?php echo _SERVER_ . _JS_;?>menu.js"></script>
 
 
 <?php require _VIEW_PATH_ . 'final.php';?>
+
+
 

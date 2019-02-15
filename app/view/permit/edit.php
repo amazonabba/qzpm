@@ -25,8 +25,8 @@
                             <div class="form-group">
                                 <label class="col-form-label">Estado</label>
                                 <select class="form-control" id="permit_status">
-                                    <option <?php echo ($opt->permit_status == 1) ? 'selected' : '';?> value="1">HABILITADO</option>
-                                    <option <?php echo ($opt->permit_status == 0) ? 'selected' : '';?>  value="0">DESHABILITADO</option>
+                                    <option <?php echo ($per->permit_status == 1) ? 'selected' : '';?> value="1">HABILITADO</option>
+                                    <option <?php echo ($per->permit_status == 0) ? 'selected' : '';?>  value="0">DESHABILITADO</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -34,7 +34,10 @@
                                 <input class="form-control" type="password" id="password"  placeholder="Ingrese su Contraseña...">
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-success" onclick="savep()"> Guardar Opción</button>
+                                <button class="btn btn-success" onclick="savep(<?php echo $per->id_optionm;?>)"> Guardar Opción</button>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-info" onclick="volverp(<?php echo $per->id_optionm;?>)"> Volver a Listar Funciones</button>
                             </div>
                         </div>
                     </div>

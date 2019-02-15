@@ -133,6 +133,7 @@ class MenuController{
 
     public function addf(){
         try{
+            unset($_SESSION['id_optionme']);
             $this->nav = new Navbar();
             $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
             $id_menu= $_GET['id'] ?? 0;
@@ -182,6 +183,7 @@ class MenuController{
                 throw new Exception('ID Sin Declarar');
             }
             $optionname = $this->menu->listOptionName($id_optionm);
+            $id_menu= $this->menu->listOptionIdMenu($id_optionm);
             $permits = $this->menu->listPermitPerOption($id_optionm);
             require _VIEW_PATH_ . 'header.php';
             require _VIEW_PATH_ . 'navbar.php';
@@ -333,7 +335,6 @@ class MenuController{
                     $model->optionm_status= $_POST['optionm_status'];
                     $model->optionm_order= $_POST['optionm_order'];
                     $result = $this->menu->saveOption($model);
-                    unset($_SESSION['id_optionme']);
 
                 } else {
                     $model->id_menu = $_SESSION['id_menuee'];
@@ -343,7 +344,6 @@ class MenuController{
                     $model->optionm_status= $_POST['optionm_status'];
                     $model->optionm_order= $_POST['optionm_order'];
                     $result = $this->menu->saveOption($model);
-                    unset($_SESSION['id_menuee']);
                 }
             } else {
                 $result = 3;
@@ -382,14 +382,11 @@ class MenuController{
                     $model->permit_action= $_POST['permit_action'];
                     $model->permit_status= $_POST['permit_status'];
                     $result = $this->menu->savePermit($model);
-                    unset($_SESSION['id_permite']);
-
                 } else {
                     $model->id_optionm = $_SESSION['id_optionmee'];
                     $model->permit_action= $_POST['permit_action'];
                     $model->permit_status= $_POST['permit_status'];
                     $result = $this->menu->savePermit($model);
-                    unset($_SESSION['id_optionmee']);
                 }
             } else {
                 $result = 3;
@@ -406,9 +403,9 @@ class MenuController{
         $result = 0;
         try{
             if($this->menu->verificatePassword($this->crypt->decrypt($_SESSION['user_nickname'],_PASS_), $_POST['password'])) {
-                if(isset($_POST['$id_permit'])){
-                    //$this->menu->deletePermit($_POST['$id_permit']);
-                    $result = $this->menu->deletePermit($_POST['$id_permit']);
+                if(isset($_POST['id_permit'])){
+                    //$this->menu->deletePermit($_POST['id_permit']);
+                    $result = $this->menu->deletePermit($_POST['id_permit']);
                 }
             } else {
                 $result = 3;

@@ -178,6 +178,21 @@ class Menu{
 
     }
 
+    public function listOptionIdMenu($id){
+        try{
+            $sql = "select id_menu from optionm where id_optionm = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $result = $stm->fetch();
+            $name = $result->id_menu;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $name = "";
+        }
+        return $name;
+
+    }
+
     public function insertRole($id_menu, $id_role){
         try{
             $sql = "insert into rolemenu (id_role, id_menu) values(?,?)";
@@ -247,6 +262,7 @@ class Menu{
                     $model->optionm_status,
                     $model->optionm_order
                 ]);
+                unset($_SESSION['id_menuee']);
             } else {
                 $sql = "update optionm
                 set
@@ -266,8 +282,10 @@ class Menu{
                     $model->optionm_order,
                     $model->id_optionm
                 ]);
+                unset($_SESSION['id_optionme']);
             }
             $result = 1;
+
         } catch (Exception $e){
             //throw new Exception($e->getMessage());
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
@@ -328,6 +346,7 @@ class Menu{
                     $model->permit_action,
                     $model->permit_status
                 ]);
+                unset($_SESSION['id_optionmee']);
             } else {
                 $sql = "update permit
                 set
@@ -341,6 +360,7 @@ class Menu{
                     $model->permit_status,
                     $model->id_permit
                 ]);
+                unset($_SESSION['id_permite']);
             }
             $result = 1;
         } catch (Exception $e){

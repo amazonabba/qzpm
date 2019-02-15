@@ -137,6 +137,7 @@ if(file_exists($archivo)){
         } else {
             //LLEGA AQUI SI SE TRATA DE ACCEDER A ACCION O FUNCION SIN PERMISOS Y SI NO SE ESTA LOGUEADO
             $archivof = 'app/controllers/LoginController.php';
+            $controlador = 'Login';
 
         }
         require $archivof;

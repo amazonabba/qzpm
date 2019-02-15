@@ -83,7 +83,7 @@ function save() {
 
 }
 
-function savef() {
+function savef(idr) {
     var valor = "correcto";
     var optionm_name = $('#optionm_name').val();
     var optionm_function = $('#optionm_function').val();
@@ -140,7 +140,7 @@ function savef() {
                 switch (r) {
                     case "1":
                         alertify.success("¡Guardado!");
-                        location.href = urlweb +  'Menu/list';
+                        location.href = urlweb +  'Menu/functions/' + idr;
                         break;
                     case "2":
                         alertify.error("Fallo el envio");
@@ -158,7 +158,7 @@ function savef() {
 
 }
 
-function savep() {
+function savep(idr) {
     var valor = "correcto";
     var permit_action = $('#permit_action').val();
     var permit_status = $('#permit_status').val();
@@ -192,7 +192,7 @@ function savep() {
                 switch (r) {
                     case "1":
                         alertify.success("¡Guardado!");
-                        location.reload();
+                        location.href = urlweb +  'Menu/listp/' + idr;
                         break;
                     case "2":
                         alertify.error("Fallo el envio");
@@ -208,6 +208,14 @@ function savep() {
         });
     }
 
+}
+
+function volverf(id){
+    location.href = urlweb +  'Menu/functions/' + id;
+}
+
+function volverp(id){
+    location.href = urlweb +  'Menu/listp/' + id;
 }
 
 function preguntarSiNoAR(id_menu, id_role){

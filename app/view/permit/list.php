@@ -72,6 +72,7 @@
                             ?>
                             </tbody>
                         </table>
+                        <a type="button" class="btn btn-xs btn-info btne" href="<?php echo _SERVER_ . 'Menu/functions/' . $id_menu;?>" >Volver Al Menú Anterior</a>
                     </div>
                 </div>
             </div>

@@ -1,25 +1,23 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: CesarJose39
- * Date: 05/12/2018
- * Time: 17:28
+ * User: Cesar Jose Ruiz
+ * Date: 14/02/2019
+ * Time: 1:50
  */
-
-class Role{
+class Person{
     private $pdo;
     private $log;
-
     public function __construct()
     {
         $this->pdo = Database::getConnection();
         $this->log = new Log();
     }
 
-    //Listar Toda La Info Sobre Roles de Usuario
+    //Listar Toda La Info Sobre Personas
     public function listAll(){
         try{
-            $sql = 'select * from role';
+            $sql = 'select * from person';
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $result = $stm->fetchAll();
@@ -31,10 +29,10 @@ class Role{
         return $result;
     }
 
-    //Listar Un Unico Rol por ID
+    //Listar Una Unica Persona por ID
     public function list($id){
         try{
-            $sql = 'select * from role where id_role = ? limit 1';
+            $sql = 'select * from person where id_person = ? limit 1';
             $stm = $this->pdo->prepare($sql);
             $stm->execute([$id]);
             $result = $stm->fetch();
@@ -46,47 +44,45 @@ class Role{
         return $result;
     }
 
-    //Listar Toda La Info Sobre Roles de Usuario
-    public function listAll2(){
-        try{
-            $sql = 'select * from role where id_role <> 1';
-            $stm = $this->pdo->prepare($sql);
-            $stm->execute();
-            $result = $stm->fetchAll();
-
-        } catch (Exception $e){
-            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
-            $result = [];
-        }
-        return $result;
-    }
-
     //Guardar o Editar Informacion de Role
     public function save($model){
         try {
-            if(empty($model->id_role)){
-                $sql = 'insert into role(
-                    role_name, role_description
-                    ) values(?,?)';
+            if(empty($model->id_person)){
+                $sql = 'insert into person(
+                    person_name, person_surname, person_birth, person_number_phone, person_genre, person_address
+                    ) values(?,?,?,?,?,?)';
                 $stm = $this->pdo->prepare($sql);
                 $stm->execute([
-                    $model->role_name,
-                    $model->role_description
+                    $model->person_name,
+                    $model->person_surname,
+                    $model->person_birth,
+                    $model->person_number_phone,
+                    $model->person_genre,
+                    $model->person_address
                 ]);
 
             } else {
-                $sql = "update role
+                $sql = "update person
                 set
-                role_name = ?,
-                role_description = ?
-                where id_role = ?";
+                person_name = ?,
+                person_surname = ?,
+                person_birth = ?,
+                person_number_phone = ?,
+                person_genre = ?,
+                person_address = ?
+                where id_person = ?";
 
                 $stm = $this->pdo->prepare($sql);
                 $stm->execute([
-                    $model->role_name,
-                    $model->role_description,
-                    $model->id_role
+                    $model->person_name,
+                    $model->person_surname,
+                    $model->person_birth,
+                    $model->person_number_phone,
+                    $model->person_genre,
+                    $model->person_address,
+                    $model->id_person,
                 ]);
+                unset($_SESSION['id_persone']);
             }
             $result = 1;
         } catch (Exception $e){
@@ -100,7 +96,7 @@ class Role{
     //Borrar un Registro
     public function delete($id){
         try{
-            $sql = 'delete from role where id_role = ?';
+            $sql = 'delete from person where id_person = ?';
             $stm = $this->pdo->prepare($sql);
             $stm->execute([$id]);
             $result = 1;

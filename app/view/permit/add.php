@@ -34,7 +34,10 @@
                                 <input class="form-control" type="password" id="password"  placeholder="Ingrese su Contraseña...">
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-success" onclick="savep()"> Guardar Opción</button>
+                                <button class="btn btn-success" onclick="savep(<?php echo $id_optionm;?>)"> Guardar Opción</button>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-info" onclick="volverp(<?php echo $id_optionm;?>)"> Volver a Listar Funciones</button>
                             </div>
                         </div>
                     </div>

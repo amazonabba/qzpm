@@ -29,6 +29,20 @@ class Person{
         return $result;
     }
 
+    public function listAllFree(){
+        try{
+            $sql = 'select * from person p where not exists (select null from user u where u.id_person = p.id_person)';
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll();
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = [];
+        }
+        return $result;
+    }
+
     //Listar Una Unica Persona por ID
     public function list($id){
         try{
@@ -83,6 +97,7 @@ class Person{
                     $model->id_person,
                 ]);
                 unset($_SESSION['id_persone']);
+                unset($_SESSION['id_personeinfo']);
             }
             $result = 1;
         } catch (Exception $e){

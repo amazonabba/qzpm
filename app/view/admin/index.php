@@ -10,7 +10,10 @@
         <div class="main-content-inner">
             <!-- MAIN CONTENT GOES HERE -->
             <!--Todo tu codigo cool and nice va aqui-->
-
+            <br>
+            <br>
+            <center><h2>¡BIENVENIDO!</h2></center>
+            <center><h3>Use el Sistema con Sabiduría</h3></center>
 
         </div>
     </div>

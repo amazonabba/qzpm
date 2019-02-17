@@ -63,6 +63,14 @@ function save() {
         $('#user_email').css('border','');
     }
 
+    if(id_person == ""){
+        alertify.error('No se ha seleccionado una persona para el usuario');
+        $('#id_person').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#id_person').css('border','');
+    }
+
     if (valor == "correcto"){
         var cadena = "user_nickname=" + user_nickname +
             "&user_password=" + user_password1 +
@@ -74,11 +82,20 @@ function save() {
             url: urlweb + "api/User/save",
             data: cadena,
             success:function (r) {
-                if(r==1){
-                    alertify.success("¡Guardado!");
-                    location.href = urlweb +  'User/all';
-                } else {
-                    alertify.error("Fallo el envio");
+                switch (r) {
+                    case "1":
+                        alertify.success("¡Guardado!");
+                        location.href = urlweb +  'User/all';
+                        break;
+                    case "2":
+                        alertify.error("Fallo el envio");
+                        break;
+                    case "3":
+                        alertify.warning("Este NOMBRE DE USUARIO ya se encuentra en uso");
+                        $('#user_nickname').css('border','solid red');
+                        break;
+                    default:
+                        alertify.error("ERROR DESCONOCIDO");
                 }
             }
         });
@@ -165,11 +182,20 @@ function savee() {
             url: urlweb + "api/User/save",
             data: cadena,
             success:function (r) {
-                if(r==1){
-                    alertify.success("¡Guardado!");
-                    location.href = urlweb +  'User/all';
-                } else {
-                    alertify.error("Fallo el envio");
+                switch (r) {
+                    case "1":
+                        alertify.success("¡Guardado!");
+                        location.href = urlweb +  'User/all';
+                        break;
+                    case "2":
+                        alertify.error("Fallo el envio");
+                        break;
+                    case "3":
+                        alertify.warning("Este NOMBRE DE USUARIO ya se encuentra en uso");
+                        $('#user_nickname').css('border','solid red');
+                        break;
+                    default:
+                        alertify.error("ERROR DESCONOCIDO");
                 }
             }
         });

@@ -56,7 +56,9 @@
                     <img class="avatar user-thumb" src="<?php echo _SERVER_;?><?php echo $this->crypt->decrypt($_SESSION['user_image'],_PASS_);?>" alt="avatar">
                     <h4 class="user-name dropdown-toggle" data-toggle="dropdown"><?php echo $this->crypt->decrypt($_SESSION['user_nickname'],_PASS_);?><i class="fa fa-angle-down"></i></h4>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Configurar</a>
+                        <a class="dropdown-item" href="<?php echo _SERVER_;?>Edit/info">Editar Datos Personales</a>
+                        <a class="dropdown-item" href="<?php echo _SERVER_;?>Edit/changeUser">Cambiar Nombre de Usuario</a>
+                        <a class="dropdown-item" href="<?php echo _SERVER_;?>Edit/changepass">Cambiar Contraseña</a>
                         <a class="dropdown-item" href="<?php echo _SERVER_;?>api/Logout/singOut">Cerrar Sesión</a>
                     </div>
                 </div>

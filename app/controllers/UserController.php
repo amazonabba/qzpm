@@ -46,7 +46,7 @@ class UserController{
             $this->nav = new Navbar();
             $navs = $this->nav->listMenu($this->crypt->decrypt($_SESSION['role'],_PASS_));
             $roles = $this->role->listAll2();
-            $person = $this->person->listAll();
+            $person = $this->person->listAllFree();
             require _VIEW_PATH_ . 'header.php';
             require _VIEW_PATH_ . 'navbar.php';
             require _VIEW_PATH_ . 'user.php';
@@ -91,8 +91,7 @@ class UserController{
             }
             $_SESSION['id_userchg'] = $id;
             $user = $this->user->list($id);
-            $roles = $this->role->listAll2();
-            $person = $this->person->listAll();
+
             require _VIEW_PATH_ . 'header.php';
             require _VIEW_PATH_ . 'navbar.php';
             require _VIEW_PATH_ . 'user.php';
@@ -109,20 +108,41 @@ class UserController{
         try{
             $model = new User();
             if(isset($_SESSION['id_usered'])){
-                $model->id_user = $_SESSION['id_usered'];
-                $model->user_nickname = $_POST['user_nickname'];
-                $model->user_status = $_POST['user_status'];
-                $model->user_email = $_POST['user_email'];
-                $model->id_role = $_POST['id_role'];
-                $model->id_person = $_POST['id_person'];
-                $result = $this->user->save($model);
+                if($this->user->selectNickname($_SESSION['id_usered']) == $_POST['user_nickname']){
+                    $model->id_user = $_SESSION['id_usered'];
+                    $model->user_nickname = $_POST['user_nickname'];
+                    $model->user_status = $_POST['user_status'];
+                    $model->user_email = $_POST['user_email'];
+                    $model->id_role = $_POST['id_role'];
+                    $model->id_person = $_POST['id_person'];
+                    $result = $this->user->save($model);
+                    $this->user->sessionclose();
+                } else {
+                    if($this->user->validateUser($_POST['user_nickname'])){
+                        $result = 3;
+                    } else {
+                        $model->id_user = $_SESSION['id_usered'];
+                        $model->user_nickname = $_POST['user_nickname'];
+                        $model->user_status = $_POST['user_status'];
+                        $model->user_email = $_POST['user_email'];
+                        $model->id_role = $_POST['id_role'];
+                        $model->id_person = $_POST['id_person'];
+                        $result = $this->user->save($model);
+                        $this->user->sessionclose();
+                    }
+                }
             } else {
-                $model->user_nickname= $_POST['user_nickname'];
-                $model->user_password =  password_hash($_POST['user_password'], PASSWORD_BCRYPT);
-                $model->user_email = $_POST['user_email'];
-                $model->id_role = $_POST['id_role'];
-                $model->id_person = $_POST['id_person'];
-                $result = $this->user->save($model);
+                if($this->user->validateUser($_POST['user_nickname'])){
+                    $result = 3;
+                } else {
+                    $model->user_nickname= $_POST['user_nickname'];
+                    $model->user_password =  password_hash($_POST['user_password'], PASSWORD_BCRYPT);
+                    $model->user_email = $_POST['user_email'];
+                    $model->id_role = $_POST['id_role'];
+                    $model->id_person = $_POST['id_person'];
+                    $result = $this->user->save($model);
+                }
+
             }
         } catch (Exception $e){
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);

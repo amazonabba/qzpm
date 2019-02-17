@@ -29,6 +29,39 @@ class User{
         return $result;
     }
 
+    public function validateUser($nickname){
+        try{
+            $sql = 'select * from user u where user_nickname = ?';
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$nickname]);
+            $re = $stm->fetchAll();
+            if(count($re) > 0){
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = false;
+        }
+        return $result;
+    }
+
+    public function selectNickname($id){
+        try{
+            $sql = 'select user_nickname from user u where id_user = ?';
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([$id]);
+            $re = $stm->fetch();
+            $result = $re->user_nickname;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = "";
+        }
+        return $result;
+    }
+
     //Listar Un Unico Usuario por ID
     public function list($id){
         try{
@@ -50,8 +83,8 @@ class User{
             $fecha = date("Y-m-d H:i:s");
             if(empty($model->id_user)){
                 $sql = 'insert into user(
-                    id_person, id_role, user_nickname, user_password, user_email, user_status, user_created_at, user_modified_at
-                    ) values(?,?,?,?,?,?,?,?)';
+                    id_person, id_role, user_nickname, user_password, user_email, user_status, user_created_at, user_modified_at, user_image
+                    ) values(?,?,?,?,?,?,?,?,?)';
                 $stm = $this->pdo->prepare($sql);
                 $stm->execute([
                     $model->id_person,
@@ -61,7 +94,8 @@ class User{
                     $model->user_email,
                     1,
                     $fecha,
-                    $fecha
+                    $fecha,
+                    'media/user/1/user.jpg'
                 ]);
 
             } else {
@@ -107,6 +141,7 @@ class User{
                 $model->id_user
             ]);
             unset($_SESSION['id_userchg']);
+            unset($_SESSION['id_userchginfo']);
             $result = 1;
         } catch (Exception $e){
             //throw new Exception($e->getMessage());
@@ -128,5 +163,37 @@ class User{
             $result = 2;
         }
         return $result;
+    }
+
+    public function sessionclose(){
+        try{
+            unset($_SESSION['id_user']);
+            unset($_SESSION['id_person']);
+            unset($_SESSION['user_nickname']);
+            unset($_SESSION['user_image']);
+            unset($_SESSION['person_name']);
+            unset($_SESSION['person_surname']);
+            unset($_SESSION['person_dni']);
+            unset($_SESSION['person_genre']);
+            unset($_SESSION['role']);
+            unset($_SESSION['role_name']);
+            session_destroy();
+
+            setcookie('id_user', '1', time() - 365 * 24 * 60 * 60, "/");
+            setcookie('id_person', '1', time() - 365 * 24 * 60 * 60, "/");
+            setcookie('user_nickname', '1', time() - 365 * 24 * 60 * 60, "/");
+            setcookie('user_image', '1', time() - 365 * 24 * 60 * 60, "/");
+            setcookie('person_name', '1', time() - 365 * 24 * 60 * 60, "/");
+            setcookie('person_surname', '1', time() - 365 * 24 * 60 * 60, "/");
+            setcookie('person_dni', '1', time() - 365 * 24 * 60 * 60, "/");
+            setcookie('person_genre', '1', time() - 365 * 24 * 60 * 60, "/");
+            setcookie("role", '1', time() - 365 * 30 * 24 * 60 * 60, "/");
+            setcookie("role_name", '1', time() - 365 * 24 * 60 * 60, "/");
+            $okey = 1;
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $okey = 2;
+        }
+        return $okey;
     }
 }

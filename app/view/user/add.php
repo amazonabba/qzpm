@@ -50,6 +50,7 @@
                             <div class="form-group">
                                 <label class="col-form-label">Persona a Designar Usuario</label>
                                 <select class="form-control" id="id_person" >
+                                    <option value="">Selecciona una persona...</option>
                                     <?php
                                     foreach ($person as $p){
                                         ?>

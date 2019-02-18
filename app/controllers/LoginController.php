@@ -44,7 +44,7 @@ class LoginController{
             if(password_verify($password, $singin[0]->user_password)){
                 if ($remenber == "true"){
                     setcookie('id_user', $this->crypt->encrypt($singin[0]->id_user, _PASS_), time() + 30 * 24 * 60 * 60, "/");
-                    setcookie('id_person', $this->crypt->encrypt($singin[0]->id_user, _PASS_), time() + 30 * 24 * 60 * 60, "/");
+                    setcookie('id_person', $this->crypt->encrypt($singin[0]->id_person, _PASS_), time() + 30 * 24 * 60 * 60, "/");
                     setcookie('user_nickname', $this->crypt->encrypt($singin[0]->user_nickname, _PASS_), time() + 365 * 24 * 60 * 60, "/");
                     setcookie('user_image', $this->crypt->encrypt($singin[0]->user_image, _PASS_), time() + 30 * 24 * 60 * 60, "/");
                     setcookie('person_name', $this->crypt->encrypt($singin[0]->person_name, _PASS_), time() + 30 * 24 * 60 * 60, "/");
@@ -56,7 +56,7 @@ class LoginController{
                 }
 
                 $_SESSION['id_user'] = $this->crypt->encrypt($singin[0]->id_user, _PASS_);
-                $_SESSION['id_person'] = $this->crypt->encrypt($singin[0]->id_user, _PASS_);
+                $_SESSION['id_person'] = $this->crypt->encrypt($singin[0]->id_person, _PASS_);
                 $_SESSION['user_nickname'] = $this->crypt->encrypt($singin[0]->user_nickname, _PASS_);
                 $_SESSION['user_image'] = $this->crypt->encrypt($singin[0]->user_image, _PASS_);
                 $_SESSION['person_name'] = $this->crypt->encrypt($singin[0]->person_name, _PASS_);

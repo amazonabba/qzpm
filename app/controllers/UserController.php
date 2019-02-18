@@ -155,7 +155,7 @@ class UserController{
         try{
             $model = new User();
             if(isset($_SESSION['id_userchg'])){
-                $model->id_user = $_SESSION['id_user'];
+                $model->id_user = $_SESSION['id_userchg'];
                 $model->user_password =  password_hash($_POST['user_password'], PASSWORD_BCRYPT);
                 $result = $this->user->changepassword($model);
             }

@@ -69,7 +69,7 @@ if(isset($_GET['c'])){
     //Si No Hay Controlador Declarado, Se Hace Validación
 
     //Esta Parte Del Código Es Para Software Que Sólo Funcionan Con Usuarios Registrados
-    if(isset($_COOKIE['role']) || isset($_SESSION['role'])){
+    if(isset($_SESSION['role'])){
         //Si Entra Aquí, Es Porque Hay Una Sesión Iniciada
         $controlador = "Admin";
     } else {
@@ -130,7 +130,7 @@ if(file_exists($archivo)){
             $errores->insert($e->getMessage(), $function_action);
         }
     } else {
-        if(isset($_COOKIE['role']) || isset($_SESSION['role'])){
+        if(isset($_SESSION['role'])){
             //LLEGA AQUI SI SE TRATA DE ACCEDER A ACCION O FUNCION SIN PERMISOS Y SI SE ESTA LOGUEADO
             $archivof = 'app/controllers/ErrorController.php';
             $controlador = 'Error';

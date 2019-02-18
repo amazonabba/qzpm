@@ -15,7 +15,7 @@ define('_JS_', 'js/');
 //Estilos Index
 define('_VIEW_STYLES_', 'styles/assets/');
 define('_TITLE_', 'Gestión de Sistema');
-define('_ICON_', 'styles/rose.png');
+define('_ICON_', 'styles/icon.png');
 
 define('_PASS_','mm19rules');
 
@@ -28,4 +28,4 @@ define('_COOKIE_PATH_', '/mycookies/');
 
 //Version
 define('_VERSION_','0.0.0.1');
-define('_MYSITE_','http://elcastigadordepeladas.com');
+define('_MYSITE_','http://cesarjoseruiz.com');

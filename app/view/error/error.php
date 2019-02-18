@@ -6,22 +6,31 @@
  * Time: 15:56
  */
 ?>
-
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>¡ERROR! :c</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Error</title>
+    <link rel="stylesheet" href="<?php echo _SERVER_;?>styles/error/css/style.css">
     <link rel="icon" href="<?php echo _SERVER_ . _ICON_;?>">
 </head>
+
 <body>
-<center><h1>Felicidades Papu, haz roto el sitio web :D</h1></center>
-<br>
-<center><h4>Por cosas como estas, puto el que lo lea.</h4></center>
-<center><h6>¡Huevo Presidente!</h6></center>
+
+<main class="bsod container">
+    <h1 class="neg title"><span class="bg">Lo sentimos, te hemos fallado :(</span></h1>
+    <p>Ocurrió un error en el sitio web. Para continuar, puedes:</p>
+    <p>* Volver al inicio.<br />
+        * Ponerte en contacto con el que hizo esto y p***arlo(s) por el error.</p>
+    <nav class="nav">
+        <a href="<?php echo _SERVER_;?>" class="link">Inicio</a>&nbsp;|&nbsp;<a href="<?php echo _MYSITE_;?>" class="link" target="_blank">Ir a discutir con el equipo</a>
+    </nav>
+</main>
+
+
 </body>
+
 </html>
 

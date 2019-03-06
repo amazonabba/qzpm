@@ -18,12 +18,14 @@ class Menui{
     public function verificateViewRole($id_role, $view, $option){
         $validate = false;
         try{
-            $sql = "select m.menu_status, o.optionm_status from role r inner join rolemenu rl on r.id_role = rl.id_role inner join menu m on rl.id_menu = m.id_menu inner join optionm o on m.id_menu = o.id_menu where rl.id_role = ? and m.menu_controller = ? and o.optionm_function = ?";
+            $sql = "select m.menu_status, o.optionm_status from role r inner join rolemenu rl on r.id_role = rl.id_role inner join menu m on rl.id_menu = m.id_menu inner join optionm o on m.id_menu = o.id_menu where rl.id_role = ? and m.menu_controller = ? and o.optionm_function = ? limit 1";
             $stm = $this->pdo->prepare($sql);
             $stm->execute([$id_role, $view, $option]);
-            $result = $stm->fetchAll();
-            if(count($result) > 0){
-                $validate = true;
+            $result = $stm->fetch();
+            if(isset($result->optionm_status)){
+                if($result->optionm_status == 1){
+                    $validate = true;
+                }
             }
         } catch (Exception $e){
             $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);

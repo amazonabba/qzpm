@@ -35,7 +35,7 @@
                                     <td><?php echo $m->id_role?></td>
                                     <td><?php echo $m->role_name?></td>
                                     <td><?php echo $m->role_description?></td>
-                                    <td><a type="button" class="btn btn-xs btn-warning btne" href="<?php echo _SERVER_ . 'Role/edit/' . $m->id_role;?>" >Editar</a><a type="button" class="btn btn-xs btn-danger" onclick="preguntarSiNo(<?php echo $m->id_role;?>)">Eliminar</a></td>
+                                    <td><a type="button" class="btn btn-xs btn-warning btne" href="<?php echo _SERVER_ . 'Role/edit/' . $m->id_role;?>" >Editar</a><a type="button" class="btn btn-xs btn-danger" onclick="preguntarSiNo(<?php echo $m->id_role;?>)">Eliminar</a><a type="button" class="btn btn-xs btn-success btne" href="<?php echo _SERVER_ . 'Role/options/' . $m->id_role;?>" >Ver Accesos</a></td>
                                 </tr>
                                 <?php
                             }

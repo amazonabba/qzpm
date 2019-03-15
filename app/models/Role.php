@@ -110,4 +110,76 @@ class Role{
         }
         return $result;
     }
+
+    //Listar Todos Los Menus Del Sistema
+    public function listAllMenu(){
+        try{
+            $sql = 'select * from menu';
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute();
+            $result = $stm->fetchAll();
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = [];
+        }
+        return $result;
+    }
+
+    //Listar Todos Los Menus Del Sistema
+    public function SearchRelationship($id_role, $id_menu){
+        try{
+            $sql = 'select * from rolemenu where id_role = ? and id_menu = ?';
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([
+                $id_role,
+                $id_menu
+            ]);
+            $total = $stm->fetchAll();
+            if(count($total) != 0){
+                $result = true;
+            } else {
+                $result = false;
+            }
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = false;
+        }
+        return $result;
+    }
+
+    public function AddRelationship($id_role, $id_menu){
+        try{
+            $sql = 'insert into rolemenu (id_role, id_menu) values (?,?)';
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([
+                $id_role,
+                $id_menu
+            ]);
+            $result = 1;
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        return $result;
+    }
+
+    public function DeleteRelationship($id_role, $id_menu){
+        try{
+            $sql = 'delete from rolemenu where id_role = ? and id_menu = ?';
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([
+                $id_role,
+                $id_menu
+            ]);
+            $result = 1;
+
+        } catch (Exception $e){
+            $this->log->insert($e->getMessage(), get_class($this).'|'.__FUNCTION__);
+            $result = 2;
+        }
+        return $result;
+    }
+
 }

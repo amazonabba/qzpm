@@ -46,6 +46,82 @@ function preguntarSiNo(id){
         , function(){ alertify.error('Operacion Cancelada')});
 }
 
+function agregarRelacion(id_role, id_menu){
+    alertify.confirm('Crear Relación', '¿Esta seguro que desea crear está relación?',
+        function(){ agregar(id_role, id_menu) }
+        , function(){ alertify.error('Operacion Cancelada')});
+}
+
+function eliminarRelacion(id_role, id_menu){
+    alertify.confirm('Eliminar Relación', '¿Esta seguro de eliminar está relación?',
+        function(){ eliminar(id_role, id_menu) }
+        , function(){ alertify.error('Operacion Cancelada')});
+}
+
+function agregar(id_role, id_menu){
+    var valor = "correcto";
+    var password = $('#password').val();
+
+    if(password == ""){
+        alertify.error('El campo Contraseña de Usuario está vacío');
+        $('#password').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#password').css('border','');
+    }
+    if (valor == "correcto"){
+        var cadena = "id_role=" + id_role +
+            "&id_menu=" + id_menu +
+            "&password=" + password;
+        $.ajax({
+            type:"POST",
+            url: urlweb + "api/Role/addRelation",
+            data : cadena,
+            success:function (r) {
+                if(r==1){
+                    alertify.success('Registro Agregado');
+                    location.reload();
+                } else {
+                    alertify.error('No se pudo realizar');
+                }
+            }
+        });
+    }
+
+}
+
+function eliminar(id_role, id_menu){
+    var valor = "correcto";
+    var password = $('#password').val();
+
+    if(password == ""){
+        alertify.error('El campo Contraseña de Usuario está vacío');
+        $('#password').css('border','solid red');
+        valor = "incorrecto";
+    } else {
+        $('#password').css('border','');
+    }
+    if (valor == "correcto"){
+        var cadena = "id_role=" + id_role +
+            "&id_menu=" + id_menu +
+            "&password=" + password;
+        $.ajax({
+            type:"POST",
+            url: urlweb + "api/Role/deleteRelation",
+            data : cadena,
+            success:function (r) {
+                if(r==1){
+                    alertify.success('Registro Eliminado');
+                    location.reload();
+                } else {
+                    alertify.error('No se pudo realizar');
+                }
+            }
+        });
+    }
+
+}
+
 function deleter(id){
     var cadena = "id=" + id;
     $.ajax({

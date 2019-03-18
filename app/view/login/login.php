@@ -54,12 +54,12 @@
                 <div class="login-form-body">
                     <div class="form-gp">
                         <label for="exampleInputEmail1">Usuario</label>
-                        <input type="text" id="user">
+                        <input type="text" id="user" onkeypress="pulsar(event)">
                         <i class="ti-user"></i>
                     </div>
                     <div class="form-gp">
                         <label for="exampleInputPassword1">Contraseña</label>
-                        <input type="password" id="pass">
+                        <input type="password" id="pass" onkeypress="pulsar(event)">
                         <i class="ti-lock"></i>
                     </div>
                     <div class="row mb-4 rmber-area">
@@ -98,7 +98,12 @@
 <script src="<?php echo _SERVER_ . _VIEW_STYLES_;?>js/scripts.js"></script>
 
 <script type="text/javascript">
-
+    function pulsar(e) {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            e.preventDefault();
+            loginsistema();
+        }
+    }
 
     function loginsistema() {
         setInterval(logueando(), 500);
